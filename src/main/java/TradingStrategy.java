@@ -6,10 +6,12 @@ public class TradingStrategy {
 	}
 	
 	public TradingStrategy getStrategy(String strategyName) {
-		
+
+		return null;
 	}
 	
 	public Boolean evaluateStrategy(TradingStrategy strategy) {
-		
+
+		return null;
 	}
 }
