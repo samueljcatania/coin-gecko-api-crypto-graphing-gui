@@ -1,3 +1,8 @@
+/**
+ * Hi my name is Nicholas and this is a test.
+ *
+ * **/
+
 
 public class TradingStrategy {
 	
