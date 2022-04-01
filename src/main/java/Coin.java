@@ -1,3 +1,7 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * This class models a coin, containing a cryptocoin's name, and current price.
  *
@@ -13,8 +17,16 @@ public class Coin {
     }
 
     // set coin price
-    public void setCoinPrice(double coinPrice) {
+    private void setCoinPrice(double coinPrice) {
         this.coinPrice = coinPrice;
+    }
+
+    //update coin price with most up to date prices.
+    public void updateCoinPrice(){
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+        DataFetcher fetcher = new DataFetcher();
+        setCoinPrice(fetcher.getPriceForCoin(coinName, dateFormat.format(date)));
     }
 
     // return coin price
