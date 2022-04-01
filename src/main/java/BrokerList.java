@@ -2,6 +2,8 @@ import java.util.ArrayList;
 /**
  * BrokerList stores Broker objects in an array.
  *
+ * @author Meg Zhang
+ *
  */
 public class BrokerList {
     private final ArrayList<Broker> brokerList; // list of brokers
@@ -30,8 +32,26 @@ public class BrokerList {
             throw new BrokerException("Could not remove broker");
         }
     }
+    public void editBrokerName (String brokerName, String newName) throws BrokerException{
+        Broker broker = findBroker(brokerName);
+        if (broker != null){
+            broker.setName(brokerName);
+        }
+    }
 
-    //TODO Edit broker methods
+    public void editBrokerStrategy (String name, TradingStrategy strategy) throws BrokerException{
+        Broker broker = findBroker(name);
+        if (broker != null){
+            broker.setStrategy(strategy);
+        }
+    }
+
+    public void editCoins (String name, ArrayList<Coin> coins) throws BrokerException{
+        Broker broker = findBroker(name);
+        if (broker != null){
+            broker.setCoins(coins);
+        }
+    }
 
     // checks brokerList for an existing name
     private Broker findBroker(String theName){

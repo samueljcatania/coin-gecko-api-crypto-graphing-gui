@@ -28,4 +28,16 @@ public class Broker {
     public ArrayList<Coin> getCoins() {
         return coins;
     }
+
+    public void setName(String newName) {
+        brokerName = newName;
+    }
+
+    public void setStrategy(TradingStrategy strategy) {
+        tradeStrategy = strategy;
+    }
+
+    public void setCoins(ArrayList<Coin> coins) {
+        this.coins = coins;
+    }
 }
