@@ -54,7 +54,7 @@ public class BrokerList {
     }
 
     // checks brokerList for an existing name
-    private Broker findBroker(String theName){
+    public Broker findBroker(String theName){
         for (Broker broker : brokerList) {
             if (broker.getName().equals(theName)) {
                 return broker;

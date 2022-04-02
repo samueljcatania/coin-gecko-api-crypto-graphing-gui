@@ -22,11 +22,15 @@ public class Coin {
     }
 
     //update coin price with most up to date prices.
-    public void updateCoinPrice(){
+    public void updateCoinPrice() throws BrokerException {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date date = new Date();
         DataFetcher fetcher = new DataFetcher();
-        setCoinPrice(fetcher.getPriceForCoin(coinName, dateFormat.format(date)));
+        try {
+            setCoinPrice(fetcher.getPriceForCoin(coinName, dateFormat.format(date)));
+        } catch (Exception e){
+            throw new BrokerException("Could not update coin price");
+        }
     }
 
     // return coin price
