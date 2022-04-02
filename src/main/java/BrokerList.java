@@ -53,9 +53,8 @@ public class BrokerList implements BrokerListInterface {
      *
      * @param brokerName the current name
      * @param newName the new name
-     * @throws BrokerException throw exception if the current name cannot be found on the table.
      */
-    public void editBrokerName (String brokerName, String newName) throws BrokerException{
+    public void editBrokerName (String brokerName, String newName){
         Broker broker = findBroker(brokerName);
         if (broker != null){
             broker.setName(brokerName);
@@ -67,9 +66,8 @@ public class BrokerList implements BrokerListInterface {
      *
      * @param name the name of the broker to apply a new strategy to
      * @param strategy the new strategy to apply
-     * @throws BrokerException throws exception if the broker cannot be found on the table.
      */
-    public void editBrokerStrategy (String name, TradingStrategy strategy) throws BrokerException{
+    public void editBrokerStrategy (String name, TradingStrategy strategy){
         Broker broker = findBroker(name);
         if (broker != null){
             broker.setStrategy(strategy);
@@ -82,16 +80,20 @@ public class BrokerList implements BrokerListInterface {
      *
      * @param name the name of the broker to be updated
      * @param coins an arrayList of the updated coins.
-     * @throws BrokerException throws exception if the broker cannot be found.
      */
-    public void editCoins (String name, ArrayList<Coin> coins) throws BrokerException{
+    public void editCoins (String name, ArrayList<Coin> coins){
         Broker broker = findBroker(name);
         if (broker != null){
             broker.setCoins(coins);
         }
     }
 
-    // checks brokerList for an existing name
+    /**
+     * findBroker checks brokerList for an existing broker name on the table.
+     *
+     * @param theName to find
+     * @return the broker associated with the inputted name.
+     */
     public Broker findBroker(String theName){
         for (Broker broker : brokerList) {
             if (broker.getName().equals(theName)) {
@@ -101,12 +103,19 @@ public class BrokerList implements BrokerListInterface {
         return null;
     }
 
-    // returns the brokerlist
+    /**
+     * logTradingActivity returns the entire brokerList in an ArrayList of Broker objects.
+     *
+     * @return the brokerList.
+     */
     public ArrayList<Broker> logTradingActivity() {
         return brokerList;
     }
 
-    // update all coin prices on the brokerList.
+    /**
+     * updateCoinPrices updates all coin prices on the brokerList.
+     *
+     */
     public void updateCoinPrices() {
         for (Broker broker : brokerList) {
             for (int j = 0; j < broker.getCoins().size(); j++) {
