@@ -68,6 +68,6 @@ public interface BrokerListInterface {
      * updateCoinPrices updates all coin prices on the brokerList.
      *
      */
-    public void updateCoinPrices();
+    void updateCoinPrices();
 
 }
