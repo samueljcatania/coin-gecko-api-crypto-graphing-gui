@@ -49,4 +49,12 @@ public interface BrokerInterface {
      */
     void setCoins(ArrayList<Coin> coins);
 
+    /**
+     * finds and returns the specified coin within the coin list.
+     *
+     * @param coinName name of coin to find.
+     * @return the coin object associated with the coinName. Otherwise returns null.
+     */
+    Coin findCoin(String coinName);
+
 }

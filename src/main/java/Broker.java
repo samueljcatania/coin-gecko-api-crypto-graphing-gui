@@ -77,4 +77,20 @@ public class Broker {
     public void setCoins(ArrayList<Coin> coins) {
         this.coins = coins;
     }
+
+    /**
+     * finds and returns the specified coin within the coin list.
+     *
+     * @param coinName name of coin to find.
+     * @return the coin object associated with the coinName. Otherwise returns null.
+     */
+    public Coin findCoin(String coinName){
+        for (int i = 0; i < getCoins().size(); i++) {
+            // if coin is found, then return the coin.
+            if (getCoins().get(i).getCoinName().equals(coinName)){
+                return getCoins().get(i);
+            }
+        }
+        return null; // otherwise, return null.
+    }
 }
