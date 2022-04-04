@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -113,17 +114,35 @@ public class MainUI extends JFrame implements ActionListener {
 		table = new JTable(dtm);
 		// table.setPreferredSize(new Dimension(600, 300));
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions",
-				TitledBorder.CENTER, TitledBorder.TOP));
+		scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions", TitledBorder.CENTER, TitledBorder.TOP));
 		Vector<String> strategyNames = new Vector<String>();
 		strategyNames.add("None");
 		strategyNames.add("Strategy-A");
 		strategyNames.add("Strategy-B");
 		strategyNames.add("Strategy-C");
 		strategyNames.add("Strategy-D");
+		strategyNames.add("Strategy-E");
 		TableColumn strategyColumn = table.getColumnModel().getColumn(2);
 		JComboBox comboBox = new JComboBox(strategyNames);
 		strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
+		
+		Vector<String> coinNames = new Vector<String>();
+		coinNames.add("BTC");
+		coinNames.add("ETH");
+		coinNames.add("USDT");
+		coinNames.add("BNB");
+		coinNames.add("USDC");
+		coinNames.add("XRP");
+		coinNames.add("LUNA");
+		coinNames.add("ADA");
+		coinNames.add("SOL");
+		coinNames.add("AVAX");
+		TableColumn coinColumn = table.getColumnModel().getColumn(1);
+		JComboBox coinComboBox = new JComboBox(coinNames);
+		coinColumn.setCellEditor(new DefaultCellEditor(coinComboBox));
+		coinComboBox.setEditable(true);
+		
+		
 		JButton addRow = new JButton("Add Row");
 		JButton remRow = new JButton("Remove Row");
 		addRow.setActionCommand("addTableRow");
@@ -180,7 +199,7 @@ public class MainUI extends JFrame implements ActionListener {
 		
 		String command = e.getActionCommand();
 		
-		if ("refresh".equals(command)) {
+		if ("refresh".equals(command)) {//perform trade
 			for (int count = 0; count < dtm.getRowCount(); count++){
 					Object traderObject = dtm.getValueAt(count, 0);
 					if (traderObject == null) {
@@ -205,9 +224,11 @@ public class MainUI extends JFrame implements ActionListener {
 			stats.removeAll();
 			DataVisualizationCreator creator = new DataVisualizationCreator();
 			creator.createCharts();
-		} else if ("addTableRow".equals(command)) {
+			
+		} else if ("addTableRow".equals(command)) {//add row
 			dtm.addRow(new String[3]);
-		} else if ("remTableRow".equals(command)) {
+			
+		} else if ("remTableRow".equals(command)) {//remove row
 			int selectedRow = table.getSelectedRow();
 			if (selectedRow != -1)
 				dtm.removeRow(selectedRow);
