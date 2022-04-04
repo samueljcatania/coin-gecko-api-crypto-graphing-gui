@@ -25,6 +25,23 @@ public class Broker implements BrokerInterface{
     }
 
     /**
+     * Constructor for a new broker object.
+     *
+     * @param name broker name
+     * @param strategy strategy associated with the broker
+     * @param coins coins associated with the broker.
+     */
+    public Broker(String name, TradingStrategy strategy, String[] coins) {
+        brokerName = name;
+        tradeStrategy = strategy;
+        ArrayList<Coin> brokerCoinList = new ArrayList<>();
+        // add each coin in String array to coin array in broker.
+        for (String coin : coins) {
+            brokerCoinList.add(new Coin(coin));
+        }
+    }
+
+    /**
      * getName returns the name of the broker.
      *
      * @return the name of the broker
