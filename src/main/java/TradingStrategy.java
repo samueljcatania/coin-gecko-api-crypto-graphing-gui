@@ -4,28 +4,42 @@
  */
 public class TradingStrategy {
 
-	private String name;
+	private String strategyName;
 	private String coin;
 	private float current;
 	private float target;
-	private String description;
 
-	public TradingStrategy(String name, String coin, float current, float target, String description) {
-		this.name = name;
+	public TradingStrategy(String strategyName, String coin, float current, float target) {
+		this.strategyName = strategyName;
 		this.coin = coin;
 		this.current = current;
 		this.target = target;
-		this.description = description;
 	}
 
+
 	/**
-	 * Gett method returns the name of the trading strategy object
+	 * Get method returns the name of the trading strategy object
 	 * @param strategy Trading strategy object in question
 	 * @return the name of the trading strategy object
 	 */
 	public String getStrategyName (TradingStrategy strategy){
-		return strategy.name;
+		return strategy.strategyName;
 	}
 
+
+	public Boolean evaluateStrategy(TradingStrategy strategy) {
+		if (strategy.equals("StrategyA")){
+			if ()
+		} else if (strategy.equals("StrategyB")){
+
+		} else if (strategy.equals("StrategyC")){
+
+		} else if (strategy.equals("StrategyD")){
+
+		} else if (strategy.equals("StrategyE")){
+
+		}
+		return null;
+	}
 
 }
