@@ -1,45 +1,94 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * This class represents a trading strategy. It includes the name of the strategy, the coin in interest,
  * the current price of the coin, the target price of the coin, and the action it will take.
  */
-public class TradingStrategy {
+public class TradingStrategy implements TradingStrategyInterface{
 
 	private String strategyName;
-	private String coin;
-	private float current;
-	private float target;
+	private String[] names;
+	private String[] symbols;
+	private int[] prices;
+	private String coinTarget;
+	private String action;
+	private int quantity;
 
-	public TradingStrategy(String strategyName, String coin, float current, float target) {
+	public TradingStrategy(String strategyName, String coinTarget, String action, int quantity, String[] names, String[] symbols, int[] prices) {
 		this.strategyName = strategyName;
-		this.coin = coin;
-		this.current = current;
-		this.target = target;
+		this.names = names;
+		this.symbols = symbols;
+		this.prices = prices;
+		this.coinTarget = coinTarget;
+		this.action = action;
+		this.quantity = quantity;
 	}
 
+	@Override
+	public String[] trade(String[] coinList, double[] coinPriceList) {
+		DateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yyyy");
+		Date date = new Date();
 
-	/**
-	 * Get method returns the name of the trading strategy object
-	 * @param strategy Trading strategy object in question
-	 * @return the name of the trading strategy object
-	 */
-	public String getStrategyName (TradingStrategy strategy){
-		return strategy.strategyName;
-	}
+		for(int i = 0; i < names.length; i++){
+			int index = -1;
 
+			for(int x = 0; x < coinList.length; x++){
+				if(coinList[x].equalsIgnoreCase(names[i])){
+					index = x;
+				}
+			}
 
-	public Boolean evaluateStrategy(TradingStrategy strategy) {
-		if (strategy.equals("StrategyA")){
-			if ()
-		} else if (strategy.equals("StrategyB")){
+			if(index != -1) {
+				boolean evaluation = true;
 
-		} else if (strategy.equals("StrategyC")){
+				switch (symbols[i]) {
 
-		} else if (strategy.equals("StrategyD")){
+					case "<":
 
-		} else if (strategy.equals("StrategyE")){
+						if (!(prices[i] < coinPriceList[index])){
+							evaluation = false;
+						}
+						break;
+
+					case ">":
+						if (prices[i] > coinPriceList[index]){
+							evaluation = false;
+						}
+						break;
+
+					case "=":
+						if (prices[i] == coinPriceList[index]){
+							evaluation = false;
+						}
+						break;
+
+					case ">=":
+						if (prices[i] >= coinPriceList[index]){
+							evaluation = false;
+						}
+						break;
+
+					case "<=":
+						if (prices[i] <= coinPriceList[index]){
+							evaluation = false;
+						}
+						break;
+
+				}
+
+				if(!evaluation){
+					return new String[]{strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date)};
+				}
+
+			}
+			else{
+				return new String[]{strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date)};
+			}
 
 		}
-		return null;
-	}
 
+		return new String[]{strategyName, coinTarget, action, quantity+"", "xxx", dateFormat.format(date)};
+	}
 }
