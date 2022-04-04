@@ -8,7 +8,7 @@ import java.util.Date;
  * @author Meg Zhang
  *
  */
-public class Coin {
+public class Coin implements CoinInterface{
     private String coinName;
     private double coinPrice;
 
