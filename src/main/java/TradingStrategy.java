@@ -16,7 +16,8 @@ public class TradingStrategy implements TradingStrategyInterface{
 	private String action;
 	private int quantity;
 
-	public TradingStrategy(String strategyName, String coinTarget, String action, int quantity, String[] names, String[] symbols, int[] prices) {
+	public TradingStrategy(String strategyName, String coinTarget, String action, int quantity, String[] names,
+						   String[] symbols, int[] prices) {
 		this.strategyName = strategyName;
 		this.names = names;
 		this.symbols = symbols;
@@ -53,25 +54,25 @@ public class TradingStrategy implements TradingStrategyInterface{
 						break;
 
 					case ">":
-						if (prices[i] > coinPriceList[index]){
+						if (!(prices[i] > coinPriceList[index])){
 							evaluation = false;
 						}
 						break;
 
 					case "=":
-						if (prices[i] == coinPriceList[index]){
+						if (!(prices[i] == coinPriceList[index])){
 							evaluation = false;
 						}
 						break;
 
 					case ">=":
-						if (prices[i] >= coinPriceList[index]){
+						if (!(prices[i] >= coinPriceList[index])){
 							evaluation = false;
 						}
 						break;
 
 					case "<=":
-						if (prices[i] <= coinPriceList[index]){
+						if (!(prices[i] <= coinPriceList[index])){
 							evaluation = false;
 						}
 						break;
@@ -89,6 +90,6 @@ public class TradingStrategy implements TradingStrategyInterface{
 
 		}
 
-		return new String[]{strategyName, coinTarget, action, quantity+"", "xxx", dateFormat.format(date)};
+		return new String[]{strategyName, coinTarget, action, quantity+"", "", dateFormat.format(date)};
 	}
 }
