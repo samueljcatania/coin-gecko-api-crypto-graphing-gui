@@ -1,9 +1,10 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Login implements ActionListener {
+
+    JTextField usernameField, passwordField;
 
     public static void main(String[] args){
          new Login();
@@ -18,8 +19,8 @@ public class Login implements ActionListener {
 
         JPanel panel = new JPanel();
 
-        JTextField usernameField = new JTextField(20);
-        JPasswordField passwordField = new JPasswordField(20);
+        usernameField = new JTextField(20);
+        passwordField = new JPasswordField(20);
 
         JLabel username = new JLabel("Username:");
         JLabel password = new JLabel("Password:");
@@ -48,6 +49,11 @@ public class Login implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        System.out.println(username);
+        System.out.println(password);
 
     }
 
