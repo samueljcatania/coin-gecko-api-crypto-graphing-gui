@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 
+
 /**
  * This class communicates with the CoinGecko API to fetch cryptocoin prices
  *
