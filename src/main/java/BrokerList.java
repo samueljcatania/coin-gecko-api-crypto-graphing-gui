@@ -34,6 +34,14 @@ public class BrokerList implements BrokerListInterface {
         }
     }
 
+    /**
+     * addBroker adds a broker to brokerList.
+     *
+     * @param name the name of the broker, retrieved from user input into the table on the mainUI.
+     * @param strategy the strategy of the broker, selected from the table in mainUI.
+     * @param coins the list of coins of interest, which is also inputted into the table in mainUI.
+     * @throws BrokerException if broker cannot be added because it already exists.
+     */
     public void addBroker(String name, TradingStrategy strategy, String[] coins) throws BrokerException {
         // broker name already exists. Don't add
         if (findBroker(name) != null){
@@ -92,6 +100,20 @@ public class BrokerList implements BrokerListInterface {
      * @param coins an arrayList of the updated coins.
      */
     public void editCoins (String name, ArrayList<Coin> coins){
+        Broker broker = findBroker(name);
+        if (broker != null){
+            broker.setCoins(coins);
+        }
+    }
+
+    /**
+     * editCoins replaces the coinList with a new coinList depending on user input on the table in
+     * mainUI.
+     *
+     * @param name the name of the broker to be updated
+     * @param coins a String[] of the updated coins.
+     */
+    public void editCoins (String name, String[] coins){
         Broker broker = findBroker(name);
         if (broker != null){
             broker.setCoins(coins);

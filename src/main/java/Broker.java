@@ -96,6 +96,19 @@ public class Broker implements BrokerInterface{
     }
 
     /**
+     * setCoins changes the coinList attached to this broker.
+     *
+     * @param coins new String[] of coins to attach to this broker.
+     */
+    public void setCoins(String[] coins) {
+        ArrayList<Coin> newCoinList = new ArrayList<>();
+        for (String coin : coins) {
+            newCoinList.add(new Coin(coin));
+        }
+        this.coins = newCoinList;
+    }
+
+    /**
      * finds and returns the specified coin within the coin list.
      *
      * @param coinName name of coin to find.

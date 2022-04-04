@@ -50,11 +50,19 @@ public interface BrokerInterface {
     void setCoins(ArrayList<Coin> coins);
 
     /**
+     * setCoins changes the coinList attached to this broker.
+     *
+     * @param coins new String[] of coins to attach to this broker.
+     */
+    void setCoins(String[] coins);
+
+    /**
      * finds and returns the specified coin within the coin list.
      *
      * @param coinName name of coin to find.
      * @return the coin object associated with the coinName. Otherwise returns null.
      */
+
     Coin findCoin(String coinName);
 
     /**

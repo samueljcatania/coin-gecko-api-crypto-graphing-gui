@@ -50,6 +50,16 @@ public interface BrokerListInterface {
     void editCoins (String name, ArrayList<Coin> coins);
 
     /**
+     * editCoins replaces the coinList with a new coinList depending on user input on the table in
+     * mainUI.
+     *
+     * @param name the name of the broker to be updated
+     * @param coins a String[] of the updated coins.
+     */
+    void editCoins (String name, String[] coins);
+
+
+    /**
      * findBroker checks brokerList for an existing broker name on the table.
      *
      * @param theName to find
