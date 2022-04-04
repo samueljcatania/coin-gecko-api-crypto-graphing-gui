@@ -34,6 +34,16 @@ public class BrokerList implements BrokerListInterface {
         }
     }
 
+    public void addBroker(String name, TradingStrategy strategy, String[] coins) throws BrokerException {
+        // broker name already exists. Don't add
+        if (findBroker(name) != null){
+            throw new BrokerException("Broker name already exists. The Broker was not added");
+        }
+        else {
+            brokerList.add(new Broker(name, strategy, coins));
+        }
+    }
+
     /**
      * removeBroker removes a trading broker from the table.
      *
