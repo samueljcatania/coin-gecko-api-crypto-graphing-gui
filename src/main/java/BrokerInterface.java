@@ -61,5 +61,17 @@ public interface BrokerInterface {
      * Updates coin prices associated with this broker.
      *
      */
-    public void updateCoinPrices();
+    void updateCoinPrices();
+
+    /**
+     * returns a String[] of the coin list's names.
+     *
+     */
+    String[] coinNameList();
+
+    /**
+     * returns a double[] of the coin list's names.
+     *
+     */
+     double[] coinPriceList();
 }

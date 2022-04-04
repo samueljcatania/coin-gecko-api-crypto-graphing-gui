@@ -107,4 +107,32 @@ public class Broker implements BrokerInterface{
             }
         }
     }
+
+    /**
+     * returns a String[] of the coin list's names.
+     *
+     */
+    public String[] coinNameList(){
+        String[] names = new String[coins.size()];
+
+        for (int i = 0; i < coins.size(); i++) {
+            names[i] = coins.get(i).getCoinName();
+        }
+        return names;
+    }
+
+    /**
+     * returns a double[] of the coin list's names.
+     *
+     */
+    public double[] coinPriceList(){
+        double[] prices = new double[coins.size()];
+
+        for (int i = 0; i < coins.size(); i++) {
+            prices[i] = coins.get(i).getCoinPrice();
+        }
+        return prices;
+    }
+
+
 }
