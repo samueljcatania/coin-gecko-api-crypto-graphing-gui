@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author Meg Zhang
  *
  */
-public class Broker {
+public class Broker implements BrokerInterface{
     private String brokerName;
     private TradingStrategy tradeStrategy;
     private ArrayList<Coin> coins;
