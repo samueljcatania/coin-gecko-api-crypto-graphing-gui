@@ -57,4 +57,9 @@ public interface BrokerInterface {
      */
     Coin findCoin(String coinName);
 
+    /**
+     * Updates coin prices associated with this broker.
+     *
+     */
+    public void updateCoinPrices();
 }

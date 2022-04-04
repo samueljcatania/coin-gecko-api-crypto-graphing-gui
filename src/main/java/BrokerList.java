@@ -118,13 +118,7 @@ public class BrokerList implements BrokerListInterface {
      */
     public void updateCoinPrices() {
         for (Broker broker : brokerList) {
-            for (int j = 0; j < broker.getCoins().size(); j++) {
-                try {
-                    broker.getCoins().get(j).updateCoinPrice();
-                } catch (BrokerException ignored) {
-                    System.out.println("Could not update coin price for " + broker.getCoins().get(j).getCoinName());
-                }
-            }
+            broker.updateCoinPrices();
         }
     }
 }

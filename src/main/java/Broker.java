@@ -93,4 +93,18 @@ public class Broker implements BrokerInterface{
         }
         return null; // otherwise, return null.
     }
+
+    /**
+     * Updates coin prices associated with this broker.
+     *
+     */
+    public void updateCoinPrices(){
+        for (Coin coin : coins) {
+            try {
+                coin.updateCoinPrice();
+            } catch (BrokerException e) {
+                System.out.println("Could not update coin price");
+            }
+        }
+    }
 }
