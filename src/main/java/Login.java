@@ -9,10 +9,6 @@ public class Login {
     private JTextField usernameField, passwordField;
     private JFrame loginFrame;
 
-    public static void main(String[] args) {
-        new Login();
-    }
-
     public Login() {
         loginFrame = new JFrame("Login");
         loginFrame.setSize(350, 125);
@@ -76,11 +72,20 @@ public class Login {
         }
 
         if (validPassword) {
-            System.out.println("The user can enter.");
+            usernameField.setText("");
+            passwordField.setText("");
+            loginFrame.setVisible(false);
+
+            JFrame mainUIFrame = MainUI.getInstance();
+            mainUIFrame.setSize(900, 600);
+            mainUIFrame.pack();
+            mainUIFrame.setLocationRelativeTo(null);
+            mainUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainUIFrame.setVisible(true);
+
         } else {
             passwordField.setText("");
             JOptionPane.showMessageDialog(loginFrame, "Invalid Password");
         }
-
     }
 }
