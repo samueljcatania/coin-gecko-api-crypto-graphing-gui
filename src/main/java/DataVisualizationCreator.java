@@ -26,13 +26,49 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
 public class DataVisualizationCreator {
-	
+    private Object[][] tradeLog = new Object[1][7];
+    private JTable table = new JTable();
+
+    // initializes the charts with the trade sent in as parameter.
+    public void createCharts(String[] mostRecentTrade){
+        addToTradeLog(mostRecentTrade);
+        for (int i = 0; i < 7; i++) {
+            tradeLog[0][i] = mostRecentTrade[i];
+        }
+        createTableOutput(tradeLog);
+    }
+
+    // adds a new trade to the tradelog.
+    public void addToTradeLog(String[] mostRecentTrade){
+        Object[][] newTradeLog = new Object[tradeLog.length + 1][7];
+        // copy old elements to the new object[][]
+        for (int i = 0; i < tradeLog.length; i++) {
+            for (int j = 0; j < 7; j++) {
+                newTradeLog[i][j] = tradeLog[i][j];
+            }
+        }
+        // add the new trade to the last row.
+        for (int i = 0; i < 7; i++) {
+            newTradeLog[tradeLog.length][i] = mostRecentTrade[i];
+        }
+        // set newTradeLog as the tradeLog
+        tradeLog = newTradeLog;
+
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.addRow(mostRecentTrade);
+
+        MainUI.getInstance().updateStats(table);
+		MainUI.getInstance().revalidate();
+
+    }
+
+
 	public void createCharts() {
 //		createTextualOutput();
-		createTableOutput();
+            createTableOutput();
 //		createTimeSeries();
 //		createScatter();
-		createBar();
+            createBar();
 	}
 
 	private void createTextualOutput() {
@@ -45,19 +81,43 @@ public class DataVisualizationCreator {
 //                "Broker Actions",
 //                TitledBorder.CENTER,
 //                TitledBorder.TOP));
-//		
-//	
-//		
+//
+//
+//
 //		scrollPane.setPreferredSize(new Dimension(800, 300));
 //		table.setFillsViewportHeight(true);;
-		
+
 //		MainUI.getInstance().updateStats(scrollPane);
 	}
-	
+
+
+
+	private void createTableOutput(Object[][] data){
+	    // column names
+        Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
+
+        // data
+        JTable table = new JTable(data, columnNames);
+        //table.setPreferredSize(new Dimension(600, 300));
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
+                "Trader Actions",
+                TitledBorder.CENTER,
+                TitledBorder.TOP));
+
+
+
+        scrollPane.setPreferredSize(new Dimension(800, 300));
+        table.setFillsViewportHeight(true);;
+
+        MainUI.getInstance().updateStats(scrollPane);
+    }
+
 	private void createTableOutput() {
 		// Dummy dates for demo purposes. These should come from selection menu
 		Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
-		
+
 		// Dummy data for demo purposes. These should come from actual fetcher
 		Object[][] data = {
 				{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3","13-January-2022"},
@@ -73,22 +133,22 @@ public class DataVisualizationCreator {
 				{"Trader-2", "Strategy-B", "FTM", "Sell", "200", "50.2","19-January-2022"},
 				{"Trader-3", "Strategy-C", "HNT", "Buy", "1000", "2.59","20-January-2022"}
 		};
-		
+
 
 		JTable table = new JTable(data, columnNames);
 		//table.setPreferredSize(new Dimension(600, 300));
-		
+
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
                 "Trader Actions",
                 TitledBorder.CENTER,
                 TitledBorder.TOP));
-		
-	
-		
+
+
+
 		scrollPane.setPreferredSize(new Dimension(800, 300));
 		table.setFillsViewportHeight(true);;
-		
+
 		MainUI.getInstance().updateStats(scrollPane);
 	}
 
@@ -99,7 +159,7 @@ public class DataVisualizationCreator {
 		series1.add(new Day(15, 9, 2021), 47228.30);
 		series1.add(new Day(16, 9, 2021), 45263.90);
 		series1.add(new Day(17, 9, 2021), 46955.41);
-		
+
 		TimeSeries series2 = new TimeSeries("Ethereum - Daily");
 		series2.add(new Day(13, 9, 2021), 3912.28);
 		series2.add(new Day(14, 9, 2021), 3927.27);
@@ -121,7 +181,7 @@ public class DataVisualizationCreator {
 
 		XYPlot plot = new XYPlot();
 		XYSplineRenderer splinerenderer1 = new XYSplineRenderer();
-		
+
 		plot.setDataset(0, dataset);
 		plot.setRenderer(0, splinerenderer1);
 		DateAxis domainAxis = new DateAxis("");
@@ -131,7 +191,7 @@ public class DataVisualizationCreator {
 		//plot.mapDatasetToRangeAxis(0, 0);// 1st dataset to 1st y-axis
 		//plot.mapDatasetToRangeAxis(1, 1); // 2nd dataset to 2nd y-axis
 		//plot.mapDatasetToRangeAxis(2, 2);// 3rd dataset to 3rd y-axis
-		
+
 		JFreeChart chart = new JFreeChart("Daily Price Line Chart", new Font("Serif", java.awt.Font.BOLD, 18), plot,
 				true);
 
@@ -139,10 +199,10 @@ public class DataVisualizationCreator {
 		chartPanel.setPreferredSize(new Dimension(800, 300));
 		chartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		chartPanel.setBackground(Color.white);
-		
+
 		MainUI.getInstance().updateStats(chartPanel);
 	}
-	
+
 	private void createScatter() {
 		TimeSeries series1 = new TimeSeries("Bitcoin - Daily");
 		series1.add(new Day(13, 9, 2021), 50368.67);
@@ -150,7 +210,7 @@ public class DataVisualizationCreator {
 		series1.add(new Day(15, 9, 2021), 47228.30);
 		series1.add(new Day(16, 9, 2021), 45263.90);
 		series1.add(new Day(17, 9, 2021), 46955.41);
-		
+
 		TimeSeries series2 = new TimeSeries("Ethereum - Daily");
 		series2.add(new Day(13, 9, 2021), 3912.28);
 		series2.add(new Day(14, 9, 2021), 3927.27);
@@ -181,7 +241,7 @@ public class DataVisualizationCreator {
 
 		//plot.mapDatasetToRangeAxis(0, 0);// 1st dataset to 1st y-axis
 		//plot.mapDatasetToRangeAxis(1, 1); // 2nd dataset to 2nd y-axis
-		
+
 		JFreeChart scatterChart = new JFreeChart("Daily Price Scatter Chart",
 				new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
 
@@ -191,11 +251,11 @@ public class DataVisualizationCreator {
 		chartPanel.setBackground(Color.white);
 		MainUI.getInstance().updateStats(chartPanel);
 	}
-	
+
 	private void createBar() {
-		
+
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//		Those are hard-coded values!!!! 
+//		Those are hard-coded values!!!!
 //		You will have to come up with a proper datastructure to populate the BarChart with live data!
 		dataset.setValue(6, "Trader-1", "Strategy-A");
 		dataset.setValue(5, "Trader-2", "Strategy-B");

@@ -164,5 +164,4 @@ public class Broker implements BrokerInterface{
         return prices;
     }
 
-
 }

@@ -9,11 +9,12 @@ public class Main {
 
         BrokerList brokerList = new BrokerList();
 
-        Broker brokerOne = new Broker("BrokerOne", strategyA, coins);
+        Broker brokerOne = new Broker("BrokerOne", strategyA, new String[]{"BTC", "ADA"});
 
         DataFetcher dataFetcher = new DataFetcher();
 
-        String[] array = brokerOne.getTradeStrategy().trade(brokerOne.coinNameList(), dataFetcher.getPriceForCoin())
+        brokerOne.updateCoinPrices();
+        String[] array = brokerOne.getTradeStrategy().trade(brokerOne.coinNameList(), brokerOne.coinPriceList());
 
     }
 }

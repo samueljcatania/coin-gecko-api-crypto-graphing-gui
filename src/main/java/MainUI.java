@@ -223,8 +223,10 @@ public class MainUI extends JFrame implements ActionListener {
 	        }
 			stats.removeAll();
 			DataVisualizationCreator creator = new DataVisualizationCreator();
-			creator.createCharts();
-			
+			//creator.createCharts();
+			creator.createCharts(new String[] {"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3","13-January-2022"});
+			creator.addToTradeLog(new String[] {"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3","13-January-2022"});
+
 		} else if ("addTableRow".equals(command)) {//add row
 			dtm.addRow(new String[3]);
 			
