@@ -26,19 +26,33 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
 public class DataVisualizationCreator {
-    private Object[][] tradeLog = new Object[1][7];
-    private JTable table = new JTable();
+    private Object[][] tradeLog = new Object[1][7]; // the entire table of trades
+    private JTable table = new JTable(); // the table that is output on the MainUI.
+	// dataset: number of times trade was executed, row- broker name, col- trade strategy
+	private DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-    // initializes the charts with the trade sent in as parameter.
+	/**
+	 * createCharts initializes a new table and a new histogram.
+	 *
+	 * @param mostRecentTrade String[] that contains details from the most recent trade.
+	 */
+	// initializes the charts with the trade sent in as parameter.
     public void createCharts(String[] mostRecentTrade){
-        addToTradeLog(mostRecentTrade);
+//        addToTradeLog(mostRecentTrade);
         for (int i = 0; i < 7; i++) {
             tradeLog[0][i] = mostRecentTrade[i];
         }
-        createTableOutput(tradeLog);
+        createTableOutput(tradeLog); // creates table
+		//createBar(); // creates bar graph (using dummy data)
+		createBar(mostRecentTrade); // create bar graph
     }
 
-    // adds a new trade to the tradelog.
+	/**
+	 * adds a new trade to the table, and the histogram.
+	 *
+	 * @param mostRecentTrade the trade to add to the trade log and the table.
+	 */
+	// adds a new trade to the tradelog.
     public void addToTradeLog(String[] mostRecentTrade){
         Object[][] newTradeLog = new Object[tradeLog.length + 1][7];
         // copy old elements to the new object[][]
@@ -57,12 +71,14 @@ public class DataVisualizationCreator {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.addRow(mostRecentTrade);
 
-        MainUI.getInstance().updateStats(table);
+		updateBarGraph(mostRecentTrade); // update the bar graph.
+        //MainUI.getInstance().updateStats(table);
+		MainUI.getInstance().repaint();
 		MainUI.getInstance().revalidate();
-
     }
 
 
+	// provided createCharts method for demo
 	public void createCharts() {
 //		createTextualOutput();
             createTableOutput();
@@ -90,8 +106,11 @@ public class DataVisualizationCreator {
 //		MainUI.getInstance().updateStats(scrollPane);
 	}
 
-
-
+	/**
+	 * createTableOutput initializes and creates the table.
+	 *
+	 * @param data the Object[][] that contains the initial data
+	 */
 	private void createTableOutput(Object[][] data){
 	    // column names
         Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
@@ -107,13 +126,13 @@ public class DataVisualizationCreator {
                 TitledBorder.TOP));
 
 
-
         scrollPane.setPreferredSize(new Dimension(800, 300));
         table.setFillsViewportHeight(true);;
 
         MainUI.getInstance().updateStats(scrollPane);
     }
 
+	// dummy data for table
 	private void createTableOutput() {
 		// Dummy dates for demo purposes. These should come from selection menu
 		Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
@@ -252,6 +271,69 @@ public class DataVisualizationCreator {
 		MainUI.getInstance().updateStats(chartPanel);
 	}
 
+	/**
+	 * Updates the bar graph with new information.
+	 *
+	 * @param data the data to amend.
+	 */
+	private void updateBarGraph(String[] data){
+		// if the trade broker and strategy already exist in the graph
+		try {
+			dataset.incrementValue(1, data[0], data[1]); // increments value by 1 if it already exists.
+		}
+		// otherwise, add it to the dataset.
+		catch (Exception e) {
+			dataset.setValue(1, data[0], data[1]);
+		}
+		// update GUI
+		MainUI.getInstance().revalidate();
+	}
+
+	/**
+	 * this initializes the bar graph.
+	 *
+	 * @param data trade data for initialization
+	 */
+	private void createBar(String[] data) {
+
+		//DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//		Those are hard-coded values!!!!
+//		You will have to come up with a proper datastructure to populate the BarChart with live data!
+//		dataset.setValue(6, "Trader-1", "Strategy-A");
+//		dataset.setValue(5, "Trader-2", "Strategy-B");
+//		dataset.setValue(0, "Trader-3", "Strategy-E");
+//		dataset.setValue(1, "Trader-4", "Strategy-C");
+//		dataset.setValue(10, "Trader-5", "Strategy-D");
+
+		// set value as 1, as trade was executed one time, then the broker name, and the tradeStrategy.
+		dataset.setValue(1, data[0], data[1]);
+
+		CategoryPlot plot = new CategoryPlot();
+		BarRenderer barrenderer1 = new BarRenderer();
+
+		plot.setDataset(0, dataset);
+		plot.setRenderer(0, barrenderer1);
+		CategoryAxis domainAxis = new CategoryAxis("Strategy");
+		plot.setDomainAxis(domainAxis);
+		LogAxis rangeAxis = new LogAxis("Actions(Buys or Sells)");
+		rangeAxis.setRange(new Range(1.0, 20.0));
+		plot.setRangeAxis(rangeAxis);
+
+		//plot.mapDatasetToRangeAxis(0, 0);// 1st dataset to 1st y-axis
+		//plot.mapDatasetToRangeAxis(1, 1); // 2nd dataset to 2nd y-axis
+
+		JFreeChart barChart = new JFreeChart("Actions Performed By Traders So Far", new Font("Serif", java.awt.Font.BOLD, 18), plot,
+				true);
+
+		ChartPanel chartPanel = new ChartPanel(barChart);
+		chartPanel.setPreferredSize(new Dimension(600, 300));
+		chartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		chartPanel.setBackground(Color.white);
+		MainUI.getInstance().updateStats(chartPanel);
+	}
+
+
+	// bar graph demo method
 	private void createBar() {
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
