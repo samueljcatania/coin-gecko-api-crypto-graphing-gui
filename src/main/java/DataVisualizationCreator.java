@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,11 +26,15 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
+/**
+ * This class handles the output of the histogram and the table.
+ *
+ */
 public class DataVisualizationCreator {
-    private Object[][] tradeLog = new Object[1][7]; // the entire table of trades
-    private JTable table = new JTable(); // the table that is output on the MainUI.
-	// dataset: number of times trade was executed, row- broker name, col- trade strategy
+	// dataset: number of times trade was executed, row- broker name, col- trade strategy. Data for bar graph.
 	private DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	// table columns: "Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date". Data for table.
+	private DefaultTableModel tableModel = new DefaultTableModel();
 
 	/**
 	 * createCharts initializes a new table and a new histogram.
@@ -38,12 +43,12 @@ public class DataVisualizationCreator {
 	 */
 	// initializes the charts with the trade sent in as parameter.
     public void createCharts(String[] mostRecentTrade){
-//        addToTradeLog(mostRecentTrade);
+    	Object[][] tradeLog = new Object[1][7];
+    	// for loop to create the object that is used to initialize the table.
         for (int i = 0; i < 7; i++) {
             tradeLog[0][i] = mostRecentTrade[i];
         }
         createTableOutput(tradeLog); // creates table
-		//createBar(); // creates bar graph (using dummy data)
 		createBar(mostRecentTrade); // create bar graph
     }
 
@@ -54,25 +59,10 @@ public class DataVisualizationCreator {
 	 */
 	// adds a new trade to the tradelog.
     public void addToTradeLog(String[] mostRecentTrade){
-        Object[][] newTradeLog = new Object[tradeLog.length + 1][7];
-        // copy old elements to the new object[][]
-        for (int i = 0; i < tradeLog.length; i++) {
-            for (int j = 0; j < 7; j++) {
-                newTradeLog[i][j] = tradeLog[i][j];
-            }
-        }
-        // add the new trade to the last row.
-        for (int i = 0; i < 7; i++) {
-            newTradeLog[tradeLog.length][i] = mostRecentTrade[i];
-        }
-        // set newTradeLog as the tradeLog
-        tradeLog = newTradeLog;
+		tableModel.addRow(mostRecentTrade); // add a row to the table.
+		updateBarGraph(mostRecentTrade); // update the bar graph with new trade info.
 
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		model.addRow(mostRecentTrade);
-
-		updateBarGraph(mostRecentTrade); // update the bar graph.
-        //MainUI.getInstance().updateStats(table);
+		// update the UI
 		MainUI.getInstance().repaint();
 		MainUI.getInstance().revalidate();
     }
@@ -116,8 +106,11 @@ public class DataVisualizationCreator {
         Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
 
         // data
-        JTable table = new JTable(data, columnNames);
-        //table.setPreferredSize(new Dimension(600, 300));
+		// generate new tableModel using the data that was passed in.
+		tableModel = new DefaultTableModel(data,columnNames);
+		// create table by attaching tableModel to the table.
+		// the table that is output on the MainUI.
+		JTable table = new JTable(tableModel);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
@@ -125,10 +118,8 @@ public class DataVisualizationCreator {
                 TitledBorder.CENTER,
                 TitledBorder.TOP));
 
-
         scrollPane.setPreferredSize(new Dimension(800, 300));
         table.setFillsViewportHeight(true);;
-
         MainUI.getInstance().updateStats(scrollPane);
     }
 
@@ -296,15 +287,6 @@ public class DataVisualizationCreator {
 	 */
 	private void createBar(String[] data) {
 
-		//DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//		Those are hard-coded values!!!!
-//		You will have to come up with a proper datastructure to populate the BarChart with live data!
-//		dataset.setValue(6, "Trader-1", "Strategy-A");
-//		dataset.setValue(5, "Trader-2", "Strategy-B");
-//		dataset.setValue(0, "Trader-3", "Strategy-E");
-//		dataset.setValue(1, "Trader-4", "Strategy-C");
-//		dataset.setValue(10, "Trader-5", "Strategy-D");
-
 		// set value as 1, as trade was executed one time, then the broker name, and the tradeStrategy.
 		dataset.setValue(1, data[0], data[1]);
 
@@ -318,9 +300,6 @@ public class DataVisualizationCreator {
 		LogAxis rangeAxis = new LogAxis("Actions(Buys or Sells)");
 		rangeAxis.setRange(new Range(1.0, 20.0));
 		plot.setRangeAxis(rangeAxis);
-
-		//plot.mapDatasetToRangeAxis(0, 0);// 1st dataset to 1st y-axis
-		//plot.mapDatasetToRangeAxis(1, 1); // 2nd dataset to 2nd y-axis
 
 		JFreeChart barChart = new JFreeChart("Actions Performed By Traders So Far", new Font("Serif", java.awt.Font.BOLD, 18), plot,
 				true);
