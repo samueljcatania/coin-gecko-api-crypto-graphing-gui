@@ -48,6 +48,8 @@ public class MainUI extends JFrame implements ActionListener {
     private DefaultTableModel dtm;
     private JTable table;
 
+    private TradingStrategy[] tradingStrategies = new TradingStrategy[5];
+
     public static MainUI getInstance() {
         if (instance == null)
             instance = new MainUI();
@@ -60,9 +62,9 @@ public class MainUI extends JFrame implements ActionListener {
         // Set window title
         super("Crypto Trading Tool");
 
+        createTradingStrategies();
+
         // Set top bar
-
-
         JPanel north = new JPanel();
 
 //		north.add(strategyList);
@@ -113,11 +115,11 @@ public class MainUI extends JFrame implements ActionListener {
         scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions", TitledBorder.CENTER, TitledBorder.TOP));
         Vector<String> strategyNames = new Vector<String>();
         strategyNames.add("None");
-        strategyNames.add("Strategy-A");
-        strategyNames.add("Strategy-B");
-        strategyNames.add("Strategy-C");
-        strategyNames.add("Strategy-D");
-        strategyNames.add("Strategy-E");
+
+        for (TradingStrategy strategy : tradingStrategies) {
+            strategyNames.add(strategy.getStrategyName());
+        }
+
         TableColumn strategyColumn = table.getColumnModel().getColumn(2);
         JComboBox comboBox = new JComboBox(strategyNames);
         strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
@@ -178,6 +180,14 @@ public class MainUI extends JFrame implements ActionListener {
 //		getContentPane().add(west, BorderLayout.WEST);
     }
 
+    private void createTradingStrategies() {
+        tradingStrategies[0] = new TradingStrategy("Strategy-A", "ADA", "buy", 10, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[1] = new TradingStrategy("Strategy-B", "ADA", "buy", 10, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[2] = new TradingStrategy("Strategy-C", "ADA", "buy", 10, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[3] = new TradingStrategy("Strategy-D", "ADA", "buy", 10, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[4] = new TradingStrategy("Strategy-E", "ADA", "buy", 10, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+    }
+
     public void updateStats(JComponent component) {
         stats.add(component);
         stats.revalidate();
@@ -186,11 +196,13 @@ public class MainUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        //Will store all coins to fetch prices of
+        ArrayList<Broker> brokerArrayList = new ArrayList<Broker>();
+
+        //Store all coins to use to fetch prices
         Set<String> allCoins = new HashSet<String>();
 
         String command = e.getActionCommand();
-        
+
         //Perform Trade
         if ("refresh".equals(command)) {
             for (int count = 0; count < dtm.getRowCount(); count++) {
@@ -218,29 +230,28 @@ public class MainUI extends JFrame implements ActionListener {
                 }
                 String strategyName = strategyObject.toString();
 
+                for (TradingStrategy strategy : tradingStrategies) {
+                    if (strategy.getStrategyName().equals(strategyName)) {
+                        brokerArrayList.add(new Broker(traderName, strategy, coinNames));
+                    }
+                }
+
                 System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
             }
             stats.removeAll();
 
-            DataFetcher fetcher = new DataFetcher();
-            double[] allPrices = fetcher.getPricesForCoins(allCoins);
+            updateAndTrade(brokerArrayList, allCoins);
 
-            int x = 0;
-            for(String coin: allCoins){
-                System.out.println(coin + "\t Price: " + allPrices[x]);
-                x++;
-            }
 
-            DataVisualizationCreator creator = new DataVisualizationCreator();
             //creator.createCharts();
 
             // !! test trades below
-            creator.createCharts(new String[]{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-            creator.addToTradeLog(new String[]{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-C", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+//            creator.createCharts(new String[]{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+//            creator.addToTradeLog(new String[]{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+//            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+//            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+//            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+//            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-C", "ETH", "Buy", "500", "150.3", "13-January-2022"});
 
 
             //Add a new table row
@@ -252,6 +263,36 @@ public class MainUI extends JFrame implements ActionListener {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1)
                 dtm.removeRow(selectedRow);
+        }
+    }
+
+    private void updateAndTrade(ArrayList<Broker> brokerArrayList, Set<String> allCoins){
+
+        DataFetcher fetcher = new DataFetcher();
+        double[] allPricesArray = fetcher.getPricesForCoins(allCoins);
+
+        String[] allCoinsArray = allCoins.toArray(new String[0]);
+
+        for (Broker broker : brokerArrayList) {
+            double[] tempPrices = new double[broker.getCoins().length];
+
+            for(int i = 0; i < tempPrices.length; i++){
+                for(int x = 0; x < allCoinsArray.length; x++){
+                    if(broker.getCoins()[i].equalsIgnoreCase(allCoinsArray[x])){
+                        tempPrices[i] = allPricesArray[x];
+                    }
+                }
+            }
+            broker.setCoinPrices(tempPrices);
+            String[] tradeResult = broker.getTradeStrategy().trade(broker.getName(), broker.getCoins(), broker.getCoinPrices());
+
+            if(tradeResult[3].equalsIgnoreCase("Fail")){
+                JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the coins selected for \"" + broker.getName() + "\" are not sufficient.");
+            }
+
+            DataVisualizationCreator creator = new DataVisualizationCreator();
+
+            creator.createCharts(tradeResult);
         }
     }
 }

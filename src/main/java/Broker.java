@@ -6,40 +6,41 @@ import java.util.ArrayList;
  * @author Meg Zhang
  *
  */
-public class Broker implements BrokerInterface{
+public class Broker{
     private String brokerName;
     private TradingStrategy tradeStrategy;
-    private ArrayList<Coin> coins;
+    private String[] coinNames;
+    private double[] coinPrices;
 
     /**
      * Constructor for a new broker object.
      *
      * @param name broker name
      * @param strategy strategy associated with the broker
-     * @param coins coins associated with the broker.
+     * @param coinNames coins associated with the broker.
      */
-    public Broker(String name, TradingStrategy strategy, ArrayList<Coin> coins) {
+    public Broker(String name, TradingStrategy strategy, String[] coinNames) {
         brokerName = name;
         tradeStrategy = strategy;
-        this.coins = coins;
+        this.coinNames = coinNames;
     }
-
-    /**
-     * Constructor for a new broker object.
-     *
-     * @param name broker name
-     * @param strategy strategy associated with the broker
-     * @param coins coins associated with the broker.
-     */
-    public Broker(String name, TradingStrategy strategy, String[] coins) {
-        brokerName = name;
-        tradeStrategy = strategy;
-        ArrayList<Coin> brokerCoinList = new ArrayList<>();
-        // add each coin in String array to coin array in broker.
-        for (String coin : coins) {
-            brokerCoinList.add(new Coin(coin));
-        }
-    }
+//
+//    /**
+//     * Constructor for a new broker object.
+//     *
+//     * @param name broker name
+//     * @param strategy strategy associated with the broker
+//     * @param coins coins associated with the broker.
+//     */
+//    public Broker(String name, TradingStrategy strategy, String[] coins) {
+//        brokerName = name;
+//        tradeStrategy = strategy;
+//        ArrayList<Coin> brokerCoinList = new ArrayList<>();
+//        // add each coin in String array to coin array in broker.
+//        for (String coin : coins) {
+//            brokerCoinList.add(new Coin(coin));
+//        }
+//    }
 
     /**
      * getName returns the name of the broker.
@@ -59,13 +60,17 @@ public class Broker implements BrokerInterface{
         return tradeStrategy;
     }
 
+    public double[] getCoinPrices() {
+        return coinPrices;
+    }
+
     /**
      * getCoins returns the list of coins associated with this broker
      *
      * @return ArrayList of coin objects associated with this broker.
      */
-    public ArrayList<Coin> getCoins() {
-        return coins;
+    public String[] getCoins() {
+        return coinNames;
     }
 
     /**
@@ -91,77 +96,81 @@ public class Broker implements BrokerInterface{
      *
      * @param coins new ArrayList of coins to attach to this broker.
      */
-    public void setCoins(ArrayList<Coin> coins) {
-        this.coins = coins;
+    public void setCoinNames(String[] coins) {
+        this.coinNames = coinNames;
     }
 
-    /**
-     * setCoins changes the coinList attached to this broker.
-     *
-     * @param coins new String[] of coins to attach to this broker.
-     */
-    public void setCoins(String[] coins) {
-        ArrayList<Coin> newCoinList = new ArrayList<>();
-        for (String coin : coins) {
-            newCoinList.add(new Coin(coin));
-        }
-        this.coins = newCoinList;
+    public void setCoinPrices(double[] coinPrices){
+        this.coinPrices = coinPrices;
     }
 
-    /**
-     * finds and returns the specified coin within the coin list.
-     *
-     * @param coinName name of coin to find.
-     * @return the coin object associated with the coinName. Otherwise returns null.
-     */
-    public Coin findCoin(String coinName){
-        for (int i = 0; i < getCoins().size(); i++) {
-            // if coin is found, then return the coin.
-            if (getCoins().get(i).getCoinName().equals(coinName)){
-                return getCoins().get(i);
-            }
-        }
-        return null; // otherwise, return null.
-    }
+//    /**
+//     * setCoins changes the coinList attached to this broker.
+//     *
+//     * @param coins new String[] of coins to attach to this broker.
+//     */
+//    public void setCoins(String[] coins) {
+//        ArrayList<Coin> newCoinList = new ArrayList<>();
+//        for (String coin : coins) {
+//            newCoinList.add(new Coin(coin));
+//        }
+//        this.coins = newCoinList;
+//    }
 
-    /**
-     * Updates coin prices associated with this broker.
-     *
-     */
-    public void updateCoinPrices(){
-        for (Coin coin : coins) {
-            try {
-                coin.updateCoinPrice();
-            } catch (BrokerException e) {
-                System.out.println("Could not update coin price");
-            }
-        }
-    }
+//    /**
+//     * finds and returns the specified coin within the coin list.
+//     *
+//     * @param coinName name of coin to find.
+//     * @return the coin object associated with the coinName. Otherwise returns null.
+//     */
+//    public Coin findCoin(String coinName){
+//        for (int i = 0; i < getCoins().size(); i++) {
+//            // if coin is found, then return the coin.
+//            if (getCoins().get(i).getCoinName().equals(coinName)){
+//                return getCoins().get(i);
+//            }
+//        }
+//        return null; // otherwise, return null.
+//    }
+//
+//    /**
+//     * Updates coin prices associated with this broker.
+//     *
+//     */
+//    public void updateCoinPrices(){
+//        for (Coin coin : coins) {
+//            try {
+//                coin.updateCoinPrice();
+//            } catch (BrokerException e) {
+//                System.out.println("Could not update coin price");
+//            }
+//        }
+//    }
 
-    /**
-     * returns a String[] of the coin list's names.
-     *
-     */
-    public String[] coinNameList(){
-        String[] names = new String[coins.size()];
-
-        for (int i = 0; i < coins.size(); i++) {
-            names[i] = coins.get(i).getCoinName();
-        }
-        return names;
-    }
-
-    /**
-     * returns a double[] of the coin list's names.
-     *
-     */
-    public double[] coinPriceList(){
-        double[] prices = new double[coins.size()];
-
-        for (int i = 0; i < coins.size(); i++) {
-            prices[i] = coins.get(i).getCoinPrice();
-        }
-        return prices;
-    }
+//    /**
+//     * returns a String[] of the coin list's names.
+//     *
+//     */
+//    public String[] coinNameList(){
+//        String[] names = new String[coins.size()];
+//
+//        for (int i = 0; i < coins.size(); i++) {
+//            names[i] = coins.get(i).getCoinName();
+//        }
+//        return names;
+//    }
+//
+//    /**
+//     * returns a double[] of the coin list's names.
+//     *
+//     */
+//    public double[] coinPriceList(){
+//        double[] prices = new double[coins.size()];
+//
+//        for (int i = 0; i < coins.size(); i++) {
+//            prices[i] = coins.get(i).getCoinPrice();
+//        }
+//        return prices;
+//    }
 
 }

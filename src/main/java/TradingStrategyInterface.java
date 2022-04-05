@@ -1,5 +1,5 @@
 public interface TradingStrategyInterface {
 
-    String[] trade(String[] coinList, double[] coinPriceList);
+    String[] trade(String brokerName, String[] coinList, double[] coinPriceList);
 
 }

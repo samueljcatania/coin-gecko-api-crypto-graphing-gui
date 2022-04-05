@@ -27,8 +27,12 @@ public class TradingStrategy implements TradingStrategyInterface {
         this.quantity = quantity;
     }
 
+    public String getStrategyName() {
+        return strategyName;
+    }
+
     @Override
-    public String[] trade(String[] coinList, double[] coinPriceList) {
+    public String[] trade(String brokerName, String[] coinList, double[] coinPriceList) {
         DateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yyyy");
         Date date = new Date();
 
@@ -80,15 +84,15 @@ public class TradingStrategy implements TradingStrategyInterface {
                 }
 
                 if (!evaluation) {
-                    return new String[]{strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date)};
+                    return new String[]{brokerName, strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date)};
                 }
 
             } else {
-                return new String[]{strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date)};
+                return new String[]{brokerName, strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date)};
             }
 
         }
 
-        return new String[]{strategyName, coinTarget, action, quantity + "", "", dateFormat.format(date)};
+        return new String[]{brokerName, strategyName, coinTarget, action, quantity + "", "", dateFormat.format(date)};
     }
 }

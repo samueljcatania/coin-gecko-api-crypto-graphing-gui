@@ -9,6 +9,8 @@ public class Login {
     private JTextField usernameField, passwordField;
     private JFrame loginFrame;
 
+    //TODO terminate application if wrong username/password
+
     public Login() {
         loginFrame = new JFrame("Login");
         loginFrame.setSize(350, 125);
