@@ -4,12 +4,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -28,49 +25,49 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 public class MainUI extends JFrame implements ActionListener {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private static MainUI instance;
-	private JPanel stats, chartPanel, tablePanel;
+    private static MainUI instance;
+    private JPanel stats, chartPanel, tablePanel;
 
-	// Should be a reference to a separate object in actual implementation
-	private List<String> selectedList;
+    // Should be a reference to a separate object in actual implementation
+    private List<String> selectedList;
 
-	private JTextArea selectedTickerList;
-//	private JTextArea tickerList;
-	private JTextArea tickerText;
-	private JTextArea BrokerText;
-	private JComboBox<String> strategyList;
-	private Map<String, List<String>> brokersTickers = new HashMap<>();
-	private Map<String, String> brokersStrategies = new HashMap<>();
-	private List<String> selectedTickers = new ArrayList<>();
-	private String selectedStrategy = "";
-	private DefaultTableModel dtm;
-	private JTable table;
+    private JTextArea selectedTickerList;
+    //	private JTextArea tickerList;
+    private JTextArea tickerText;
+    private JTextArea BrokerText;
+    private JComboBox<String> strategyList;
+    private Map<String, List<String>> brokersTickers = new HashMap<>();
+    private Map<String, String> brokersStrategies = new HashMap<>();
+    private List<String> selectedTickers = new ArrayList<>();
+    private String selectedStrategy = "";
+    private DefaultTableModel dtm;
+    private JTable table;
 
-	public static MainUI getInstance() {
-		if (instance == null)
-			instance = new MainUI();
+    public static MainUI getInstance() {
+        if (instance == null)
+            instance = new MainUI();
 
-		return instance;
-	}
+        return instance;
+    }
 
-	private MainUI() {
+    private MainUI() {
 
-		// Set window title
-		super("Crypto Trading Tool");
+        // Set window title
+        super("Crypto Trading Tool");
 
-		// Set top bar
+        // Set top bar
 
 
-		JPanel north = new JPanel();
+        JPanel north = new JPanel();
 
 //		north.add(strategyList);
 
-		// Set bottom bar
+        // Set bottom bar
 //		JLabel from = new JLabel("From");
 //		UtilDateModel dateModel = new UtilDateModel();
 //		Properties p = new Properties();
@@ -100,142 +97,161 @@ public class MainUI extends JFrame implements ActionListener {
 //			}
 //		});
 
-		JButton trade = new JButton("Perform Trade");
-		trade.setActionCommand("refresh");
-		trade.addActionListener(this);
+        JButton trade = new JButton("Perform Trade");
+        trade.setActionCommand("refresh");
+        trade.addActionListener(this);
 
 
+        JPanel south = new JPanel();
 
-		JPanel south = new JPanel();
-		
-		south.add(trade);
+        south.add(trade);
 
-		dtm = new DefaultTableModel(new Object[] { "Trading Client", "Coin List", "Strategy Name" }, 1);
-		table = new JTable(dtm);
-		// table.setPreferredSize(new Dimension(600, 300));
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions", TitledBorder.CENTER, TitledBorder.TOP));
-		Vector<String> strategyNames = new Vector<String>();
-		strategyNames.add("None");
-		strategyNames.add("Strategy-A");
-		strategyNames.add("Strategy-B");
-		strategyNames.add("Strategy-C");
-		strategyNames.add("Strategy-D");
-		strategyNames.add("Strategy-E");
-		TableColumn strategyColumn = table.getColumnModel().getColumn(2);
-		JComboBox comboBox = new JComboBox(strategyNames);
-		strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
-		
-		Vector<String> coinNames = new Vector<String>();
-		coinNames.add("BTC");
-		coinNames.add("ETH");
-		coinNames.add("USDT");
-		coinNames.add("BNB");
-		coinNames.add("USDC");
-		coinNames.add("XRP");
-		coinNames.add("LUNA");
-		coinNames.add("ADA");
-		coinNames.add("SOL");
-		coinNames.add("AVAX");
-		TableColumn coinColumn = table.getColumnModel().getColumn(1);
-		JComboBox coinComboBox = new JComboBox(coinNames);
-		coinColumn.setCellEditor(new DefaultCellEditor(coinComboBox));
-		coinComboBox.setEditable(true);
-		
-		
-		JButton addRow = new JButton("Add Row");
-		JButton remRow = new JButton("Remove Row");
-		addRow.setActionCommand("addTableRow");
-		addRow.addActionListener(this);
-		remRow.setActionCommand("remTableRow");
-		remRow.addActionListener(this);
+        dtm = new DefaultTableModel(new Object[]{"Trading Client", "Coin List", "Strategy Name"}, 1);
+        table = new JTable(dtm);
+        // table.setPreferredSize(new Dimension(600, 300));
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions", TitledBorder.CENTER, TitledBorder.TOP));
+        Vector<String> strategyNames = new Vector<String>();
+        strategyNames.add("None");
+        strategyNames.add("Strategy-A");
+        strategyNames.add("Strategy-B");
+        strategyNames.add("Strategy-C");
+        strategyNames.add("Strategy-D");
+        strategyNames.add("Strategy-E");
+        TableColumn strategyColumn = table.getColumnModel().getColumn(2);
+        JComboBox comboBox = new JComboBox(strategyNames);
+        strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
-		scrollPane.setPreferredSize(new Dimension(800, 300));
-		table.setFillsViewportHeight(true);
-		
+        Vector<String> coinNames = new Vector<String>();
+        coinNames.add("BTC");
+        coinNames.add("ETH");
+        coinNames.add("USDT");
+        coinNames.add("BNB");
+        coinNames.add("USDC");
+        coinNames.add("XRP");
+        coinNames.add("LUNA");
+        coinNames.add("ADA");
+        coinNames.add("SOL");
+        coinNames.add("AVAX");
+        TableColumn coinColumn = table.getColumnModel().getColumn(1);
+        JComboBox coinComboBox = new JComboBox(coinNames);
+        coinColumn.setCellEditor(new DefaultCellEditor(coinComboBox));
+        coinComboBox.setEditable(true);
 
-		JPanel east = new JPanel();
+
+        JButton addRow = new JButton("Add Row");
+        JButton remRow = new JButton("Remove Row");
+        addRow.setActionCommand("addTableRow");
+        addRow.addActionListener(this);
+        remRow.setActionCommand("remTableRow");
+        remRow.addActionListener(this);
+
+        scrollPane.setPreferredSize(new Dimension(800, 300));
+        table.setFillsViewportHeight(true);
+
+
+        JPanel east = new JPanel();
 //		east.setLayout();
-		east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
+        east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
 //		east.add(table);
-		east.add(scrollPane);
-		JPanel buttons = new JPanel();
-		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
-		buttons.add(addRow);
-		buttons.add(remRow);
-		east.add(buttons);
+        east.add(scrollPane);
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+        buttons.add(addRow);
+        buttons.add(remRow);
+        east.add(buttons);
 //		east.add(selectedTickerListLabel);
 //		east.add(selectedTickersScrollPane);
 
-		// Set charts region
-		JPanel west = new JPanel();
-		west.setPreferredSize(new Dimension(1250, 650));
-		stats = new JPanel();
-		stats.setLayout(new GridLayout(2, 2));
+        // Set charts region
+        JPanel west = new JPanel();
+        west.setPreferredSize(new Dimension(1250, 650));
+        stats = new JPanel();
+        stats.setLayout(new GridLayout(2, 2));
 
-		west.add(stats);
+        west.add(stats);
 
-		getContentPane().add(north, BorderLayout.NORTH);
-		getContentPane().add(east, BorderLayout.EAST);
-		getContentPane().add(west, BorderLayout.CENTER);
-		getContentPane().add(south, BorderLayout.SOUTH);
+        getContentPane().add(north, BorderLayout.NORTH);
+        getContentPane().add(east, BorderLayout.EAST);
+        getContentPane().add(west, BorderLayout.CENTER);
+        getContentPane().add(south, BorderLayout.SOUTH);
 //		getContentPane().add(west, BorderLayout.WEST);
-	}
+    }
 
-	public void updateStats(JComponent component) {
-		stats.add(component);
-		stats.revalidate();
-	}
+    public void updateStats(JComponent component) {
+        stats.add(component);
+        stats.revalidate();
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		String command = e.getActionCommand();
-		
-		if ("refresh".equals(command)) {//perform trade
-			for (int count = 0; count < dtm.getRowCount(); count++){
-					Object traderObject = dtm.getValueAt(count, 0);
-					if (traderObject == null) {
-						JOptionPane.showMessageDialog(this, "please fill in Trader name on line " + (count + 1) );
-						return;
-					}
-					String traderName = traderObject.toString();
-					Object coinObject = dtm.getValueAt(count, 1);
-					if (coinObject == null) {
-						JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line " + (count + 1) );
-						return;
-					}
-					String[] coinNames = coinObject.toString().split(",");
-					Object strategyObject = dtm.getValueAt(count, 2);
-					if (strategyObject == null) {
-						JOptionPane.showMessageDialog(this, "please fill in strategy name on line " + (count + 1) );
-						return;
-					}
-					String strategyName = strategyObject.toString();
-					System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
-	        }
-			stats.removeAll();
-			DataVisualizationCreator creator = new DataVisualizationCreator();
-			//creator.createCharts();
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
-			// !! test trades below
-			creator.createCharts(new String[] {"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3","13-January-2022"});
-			creator.addToTradeLog(new String[] {"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3","13-January-2022"});
-			creator.addToTradeLog(new String[] {"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3","13-January-2022"});
-			creator.addToTradeLog(new String[] {"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3","13-January-2022"});
-			creator.addToTradeLog(new String[] {"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3","13-January-2022"});
-			creator.addToTradeLog(new String[] {"Trader-2", "Strategy-C", "ETH", "Buy", "500", "150.3","13-January-2022"});
+        //Will store all coins to fetch prices of
+        Set<String> allCoins = new HashSet<String>();
+
+        String command = e.getActionCommand();
+        
+        //Perform Trade
+        if ("refresh".equals(command)) {
+            for (int count = 0; count < dtm.getRowCount(); count++) {
+                Object traderObject = dtm.getValueAt(count, 0);
+
+                if (traderObject == null) {
+                    JOptionPane.showMessageDialog(this, "Please fill in Trader name on line " + (count + 1) + ".");
+                    return;
+                }
+                String traderName = traderObject.toString();
+
+                Object coinObject = dtm.getValueAt(count, 1);
+                if (coinObject == null) {
+                    JOptionPane.showMessageDialog(this, "Please fill in cryptocoin list on line " + (count + 1) + ".");
+                    return;
+                }
+                String[] coinNames = coinObject.toString().split(",");
+
+                allCoins.addAll(Arrays.asList(coinNames));
+
+                Object strategyObject = dtm.getValueAt(count, 2);
+                if (strategyObject == null) {
+                    JOptionPane.showMessageDialog(this, "Please fill in strategy name on line " + (count + 1) + ".");
+                    return;
+                }
+                String strategyName = strategyObject.toString();
+
+                System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
+            }
+            stats.removeAll();
+
+            DataFetcher fetcher = new DataFetcher();
+            double[] allPrices = fetcher.getPricesForCoins(allCoins);
+
+            int x = 0;
+            for(String coin: allCoins){
+                System.out.println(coin + "\t Price: " + allPrices[x]);
+                x++;
+            }
+
+            DataVisualizationCreator creator = new DataVisualizationCreator();
+            //creator.createCharts();
+
+            // !! test trades below
+            creator.createCharts(new String[]{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+            creator.addToTradeLog(new String[]{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
+            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-C", "ETH", "Buy", "500", "150.3", "13-January-2022"});
 
 
+            //Add a new table row
+        } else if ("addTableRow".equals(command)) {//add row
+            dtm.addRow(new String[3]);
 
-		} else if ("addTableRow".equals(command)) {//add row
-			dtm.addRow(new String[3]);
-			
-		} else if ("remTableRow".equals(command)) {//remove row
-			int selectedRow = table.getSelectedRow();
-			if (selectedRow != -1)
-				dtm.removeRow(selectedRow);
-		}
-	}
-
+            //Remove an existing table row
+        } else if ("remTableRow".equals(command)) {//remove row
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1)
+                dtm.removeRow(selectedRow);
+        }
+    }
 }

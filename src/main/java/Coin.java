@@ -39,11 +39,11 @@ public class Coin implements CoinInterface{
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date date = new Date();
         DataFetcher fetcher = new DataFetcher();
-        try {
-            setCoinPrice(fetcher.getPriceForCoin(coinName, dateFormat.format(date)));
-        } catch (Exception e){
-            throw new BrokerException("Could not update coin price");
-        }
+//        try {
+//            setCoinPrice(fetcher.getPriceForCoin(coinName, dateFormat.format(date)));
+//        } catch (Exception e){
+//            throw new BrokerException("Could not update coin price");
+//        }
     }
 
     /**

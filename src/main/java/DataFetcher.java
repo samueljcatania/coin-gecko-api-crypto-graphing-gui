@@ -1,27 +1,25 @@
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
-
+import java.util.Set;
 
 
 /**
- * This class communicates with the CoinGecko API to fetch cryptocoin prices
+ * This class communicates with the CoinGecko API to fetch all selected cryptocoin prices in one http request
  *
- * @author Provided in CS2212 Project Description
+ * @author Samuel Catania
  */
 public class DataFetcher {
-    private JsonObject getDataForCrypto(String id, String date) {
-        String urlString = String.format(
-                "https://api.coingecko.com/api/v3/coins/%s/history?date=%s", id, date);
+
+    private JsonArray getDataForCrypto() {
+
         try {
-            URL url = new URL(urlString);
+            URL url = new URL("https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.connect();
@@ -33,7 +31,7 @@ public class DataFetcher {
                     inline.append(sc.nextLine());
                 }
                 sc.close();
-                return new JsonParser().parse(inline.toString()).getAsJsonObject();
+                return new JsonParser().parse(inline.toString()).getAsJsonArray();
             }
         } catch (IOException e) {
             System.out.println("Something went wrong with the API call.");
@@ -41,49 +39,24 @@ public class DataFetcher {
         return null;
     }
 
-    public double getPriceForCoin(String id, String date) {
-        double price = 0.0;
-        JsonObject jsonObject = getDataForCrypto(id, date);
-        if (jsonObject != null) {
-            JsonObject marketData = jsonObject.get("market_data").getAsJsonObject();
-            JsonObject currentPrice = marketData.get("current_price").getAsJsonObject();
-            price = currentPrice.get("cad").getAsDouble();
+    public double[] getPricesForCoins(Set<String> allCoins) {
+
+        JsonArray jsonArray = getDataForCrypto();
+
+        Object[] allCoinsArray = allCoins.toArray();
+        double[] allPrices = new double[allCoinsArray.length];
+
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JsonObject jsonObject = (JsonObject) jsonArray.get(i);
+
+                for (int x = 0; x < allCoinsArray.length; x++) {
+                    if (jsonObject.get("symbol").getAsString().equalsIgnoreCase(allCoinsArray[x].toString())) {
+                        allPrices[x] = jsonObject.get("current_price").getAsDouble();
+                    }
+                }
+            }
         }
-        return price;
-    }
-
-    public double getMarketCapForCoin(String id, String date) {
-        double marketCap = 0.0;
-        JsonObject jsonObject = getDataForCrypto(id, date);
-        if (jsonObject != null) {
-            JsonObject marketData = jsonObject.get("market_data").getAsJsonObject();
-            JsonObject currentPrice = marketData.get("market_cap").getAsJsonObject();
-            marketCap = currentPrice.get("cad").getAsDouble();
-        }
-        return marketCap;
-    }
-
-    public double getVolumeForCoin(String id, String date) {
-        double volume = 0.0;
-        JsonObject jsonObject = getDataForCrypto(id, date);
-        if (jsonObject != null) {
-            JsonObject marketData = jsonObject.get("market_data").getAsJsonObject();
-            JsonObject currentPrice = marketData.get("total_volume").getAsJsonObject();
-            volume = currentPrice.get("cad").getAsDouble();
-        }
-        return volume;
-    }
-
-    public static void main(String[] args) {
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = new Date();
-
-        DataFetcher fetcher = new DataFetcher();
-        double price = fetcher.getPriceForCoin("ethereum", dateFormat.format(date));
-        double marketCap = fetcher.getMarketCapForCoin("ethereum", dateFormat.format(date));
-        double volume = fetcher.getVolumeForCoin("ethereum", dateFormat.format(date));
-        System.out.println("ethereum=>\tPrice: " + price +
-                "\n\t\tMarket Cap: " + marketCap +
-                "\n\t\tVolume: " + volume);
+        return allPrices;
     }
 }
