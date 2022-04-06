@@ -59,4 +59,23 @@ public class DataFetcher {
         }
         return allPrices;
     }
+
+    public double getTargetCoinPrice(String targetCoin) {
+
+        JsonArray jsonArray = getDataForCrypto();
+
+        double price = 0.0;
+
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JsonObject jsonObject = (JsonObject) jsonArray.get(i);
+
+                if (jsonObject.get("symbol").getAsString().equalsIgnoreCase(targetCoin)){
+                    price = jsonObject.get("current_price").getAsDouble();
+
+                }
+            }
+        }
+        return price;
+    }
 }

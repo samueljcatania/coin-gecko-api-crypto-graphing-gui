@@ -49,6 +49,7 @@ public class MainUI extends JFrame implements ActionListener {
     private JTable table;
 
     private TradingStrategy[] tradingStrategies = new TradingStrategy[5];
+    private boolean chartsCreated = false;
 
     public static MainUI getInstance() {
         if (instance == null)
@@ -185,7 +186,7 @@ public class MainUI extends JFrame implements ActionListener {
         tradingStrategies[1] = new TradingStrategy("Strategy-B", "ADA", "buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
         tradingStrategies[2] = new TradingStrategy("Strategy-C", "ADA", "buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
         tradingStrategies[3] = new TradingStrategy("Strategy-D", "ADA", "buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[4] = new TradingStrategy("Strategy-E", "ADA", "buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[4] = new TradingStrategy("Strategy-E", "ADA", "buy", 10, true, new String[]{"BTC"}, new String[]{"<="}, new int[]{50000});
     }
 
     public void updateStats(JComponent component) {
@@ -266,7 +267,7 @@ public class MainUI extends JFrame implements ActionListener {
         }
     }
 
-    private void updateAndTrade(ArrayList<Broker> brokerArrayList, Set<String> allCoins){
+    private void updateAndTrade(ArrayList<Broker> brokerArrayList, Set<String> allCoins) {
 
         DataFetcher fetcher = new DataFetcher();
         double[] allPricesArray = fetcher.getPricesForCoins(allCoins);
@@ -276,28 +277,29 @@ public class MainUI extends JFrame implements ActionListener {
         for (Broker broker : brokerArrayList) {
             double[] tempPrices = new double[broker.getCoins().length];
 
-            for(int i = 0; i < tempPrices.length; i++){
-                for(int x = 0; x < allCoinsArray.length; x++){
-                    if(broker.getCoins()[i].equalsIgnoreCase(allCoinsArray[x])){
+            for (int i = 0; i < tempPrices.length; i++) {
+                for (int x = 0; x < allCoinsArray.length; x++) {
+                    if (broker.getCoins()[i].equalsIgnoreCase(allCoinsArray[x])) {
                         tempPrices[i] = allPricesArray[x];
                     }
                 }
             }
             broker.setCoinPrices(tempPrices);
 
-            for(int i = 0; i < allCoinsArray.length; i++){
+            String[] tradeResult = broker.getTradeStrategy().trade(broker.getName(), fetcher.getTargetCoinPrice(broker.getTradeStrategy().getCoinTarget()), broker.getCoins(), broker.getCoinPrices());
 
-                if(allCoinsArray[i].equalsIgnoreCase(broker.getTradeStrategy().getCoinTarget())){
-                    String[] tradeResult = broker.getTradeStrategy().trade(broker.getName(), allPricesArray[i], broker.getCoins(), broker.getCoinPrices());
+            if (tradeResult[3].equalsIgnoreCase("Fail")) {
+                JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the coins selected for \"" + broker.getName() + "\" are not sufficient.");
+            }
 
-                    if(tradeResult[3].equalsIgnoreCase("Fail")){
-                        JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the coins selected for \"" + broker.getName() + "\" are not sufficient.");
-                    }
+            DataVisualizationCreator creator = new DataVisualizationCreator();
 
-                    DataVisualizationCreator creator = new DataVisualizationCreator();
+            if (!chartsCreated) {
+                creator.createCharts(tradeResult);
+                chartsCreated = true;
 
-                    creator.createCharts(tradeResult);
-                }
+            } else {
+                creator.addToTradeLog(tradeResult);
             }
         }
     }
