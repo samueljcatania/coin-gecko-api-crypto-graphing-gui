@@ -214,14 +214,24 @@ public class MainUI extends JFrame implements ActionListener {
 
         //Perform Trade
         if ("refresh".equals(command)) {
+            // parses through entire table of brokers.
             for (int count = 0; count < dtm.getRowCount(); count++) {
+                // create a new traderObject based on current row.
                 Object traderObject = dtm.getValueAt(count, 0);
 
+                // if the trader object is null, then the name hasn't been set. Return message.
                 if (traderObject == null) {
                     JOptionPane.showMessageDialog(this, "Please fill in Trader name on line " + (count + 1) + ".");
                     return;
                 }
-                String traderName = traderObject.toString();
+
+//                // check if the trader name already exists. If it does, do not add a new broker.
+                    if (isDuplicate(traderObject.toString())){
+                        JOptionPane.showMessageDialog(this, "Broker name on line " + (count + 1) + " is a duplicate.");
+                        return;
+                    }
+
+                String traderName = traderObject.toString(); // otherwise, set traderName.
 
                 Object coinObject = dtm.getValueAt(count, 1);
                 if (coinObject == null) {
@@ -273,6 +283,25 @@ public class MainUI extends JFrame implements ActionListener {
             if (selectedRow != -1)
                 dtm.removeRow(selectedRow);
         }
+    }
+
+    /**
+     * isDuplicate returns true if the brokerName is already the name of an existing broker.
+     *
+     * @param brokerName the name to check
+     * @return true if it is a duplicate, false otherwise.
+     */
+    private boolean isDuplicate(String brokerName){
+        int count = 0; // it is a duplicate if count counts 2 on the dtm.
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            if (dtm.getValueAt(i, 0).toString().equals(brokerName)){
+                count++;
+            }
+            if (count == 2){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
