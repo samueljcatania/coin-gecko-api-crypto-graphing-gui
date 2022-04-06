@@ -8,14 +8,14 @@ import java.util.Date;
  */
 public class TradingStrategy implements TradingStrategyInterface {
 
-    private String strategyName;
-    private String coinTarget;
-    private String action;
-    private int quantity;
-    private boolean quantityIsCount;
-    private String[] names;
-    private String[] symbols;
-    private int[] prices;
+    private final String strategyName;
+    private final String coinTarget;
+    private final String action;
+    private final int quantity;
+    private final boolean quantityIsCount;
+    private final String[] names;
+    private final String[] symbols;
+    private final int[] prices;
 
 
     public TradingStrategy(String strategyName, String coinTarget, String action, int quantity, boolean quantityIsCount, String[] names, String[] symbols, int[] prices) {
