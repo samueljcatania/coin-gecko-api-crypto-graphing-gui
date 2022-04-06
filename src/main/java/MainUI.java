@@ -13,10 +13,16 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+/**
+ * MainUI represents the main user interface and all the actions that can be done from it.
+ *
+ * @author Delaney Hishon
+ * @author Samuel Catania
+ * @author Meg Zhang
+ *
+ */
+
 public class MainUI extends JFrame implements ActionListener {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     private static MainUI instance;
@@ -41,6 +47,11 @@ public class MainUI extends JFrame implements ActionListener {
     private boolean chartsCreated = false;
     private DataVisualizationCreator creator = new DataVisualizationCreator();
 
+    /**
+     * getInstance returns this instance of MainUI.
+     *
+     * @return this instance of MainUI
+     */
     public static MainUI getInstance() {
         if (instance == null)
             instance = new MainUI();
@@ -48,6 +59,10 @@ public class MainUI extends JFrame implements ActionListener {
         return instance;
     }
 
+    /**
+     * MainUI() instantiates and creates the window, interface, and buttons of the main UI.
+     *
+     */
     private MainUI() {
 
         // Set window title
@@ -160,6 +175,10 @@ public class MainUI extends JFrame implements ActionListener {
 //		getContentPane().add(west, BorderLayout.WEST);
     }
 
+    /**
+     * createTradingStrategies initializes all the trading strategies available in LemonMist.
+     *
+     */
     private void createTradingStrategies() {
         tradingStrategies[0] = new TradingStrategy("Strategy-A", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
         tradingStrategies[1] = new TradingStrategy("Strategy-B", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
@@ -168,11 +187,21 @@ public class MainUI extends JFrame implements ActionListener {
         tradingStrategies[4] = new TradingStrategy("Strategy-E", "ADA", "Buy", 10, true, new String[]{"BTC"}, new String[]{"<="}, new int[]{60000});
     }
 
+    /**
+     * updateStats adds new components (histogram, table) to the UI when they are created.
+     *
+     * @param component the new component to add to the main UI.
+     */
     public void updateStats(JComponent component) {
         stats.add(component);
         stats.revalidate();
     }
 
+    /**
+     * actionPerformed waits and reacts to user input.
+     *
+     * @param e the command received by actionPerformed.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -246,6 +275,12 @@ public class MainUI extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * This method creates a new trade, and updates the table and histogram.
+     *
+     * @param brokerArrayList the broker list
+     * @param allCoins a set containing data about all cryptocoins.
+     */
     private void updateAndTrade(ArrayList<Broker> brokerArrayList, Set<String> allCoins) {
 
         DataFetcher fetcher = new DataFetcher();

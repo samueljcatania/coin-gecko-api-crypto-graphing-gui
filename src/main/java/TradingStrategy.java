@@ -5,6 +5,9 @@ import java.util.Date;
 /**
  * This class represents a trading strategy. It includes the name of the strategy, the coin in interest,
  * the current price of the coin, the target price of the coin, and the action it will take.
+ *
+ * @author Nicholas Lai
+ * @author Samuel Catania
  */
 public class TradingStrategy implements TradingStrategyInterface {
 

@@ -19,8 +19,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 /**
  * This class handles the output of the histogram and the table.
  *
+ * @author Delaney Hishon
  * @author Meg Zhang
- * @author CS 2212 provided sample GUI code
  *
  */
 public class DataVisualizationCreator {

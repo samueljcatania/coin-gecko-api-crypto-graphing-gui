@@ -3,6 +3,7 @@
  * A broker object contains its name, strategy, and a list of coins of interest attached to it.
  *
  * @author Meg Zhang
+ * @author Samuel Catania
  *
  */
 public class Broker{
@@ -74,14 +75,19 @@ public class Broker{
     }
 
     /**
-     * setCoins changes the coinList attached to this broker.
+     * setCoinNames sets a new array of coin names.
      *
-     * @param coins new ArrayList of coins to attach to this broker.
+     * @param coins String[] containing new coin names.
      */
     public void setCoinNames(String[] coins) {
         this.coinNames = coinNames;
     }
 
+    /**
+     * setCoinPrices sets a new array of coin prices.
+     *
+     * @param coinPrices double[] containing new coin prices.
+     */
     public void setCoinPrices(double[] coinPrices){
         this.coinPrices = coinPrices;
     }

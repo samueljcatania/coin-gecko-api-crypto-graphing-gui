@@ -13,6 +13,7 @@ public class Login {
     /**
      * Constructor for Login, which takes and checks user credentials.
      *
+     * @author Samuel Catania
      */
     public Login() {
         loginFrame = new JFrame("Login");
