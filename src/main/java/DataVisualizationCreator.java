@@ -59,7 +59,9 @@ public class DataVisualizationCreator {
 	// adds a new trade to the tradelog.
     public void addToTradeLog(String[] mostRecentTrade){
 		tableModel.addRow(mostRecentTrade); // add a row to the table.
-		updateBarGraph(mostRecentTrade); // update the bar graph with new trade info.
+		if (!mostRecentTrade[3].equalsIgnoreCase("Fail")) {
+			updateBarGraph(mostRecentTrade); // update the bar graph with new trade info.
+		}
 
 		// update the UI
 		MainUI.getInstance().repaint();
