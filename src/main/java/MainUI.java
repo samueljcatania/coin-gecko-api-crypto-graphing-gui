@@ -8,18 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -50,6 +39,7 @@ public class MainUI extends JFrame implements ActionListener {
 
     private TradingStrategy[] tradingStrategies = new TradingStrategy[5];
     private boolean chartsCreated = false;
+    private DataVisualizationCreator creator = new DataVisualizationCreator();
 
     public static MainUI getInstance() {
         if (instance == null)
@@ -123,23 +113,12 @@ public class MainUI extends JFrame implements ActionListener {
 
         TableColumn strategyColumn = table.getColumnModel().getColumn(2);
         JComboBox comboBox = new JComboBox(strategyNames);
+        comboBox.setEditable(false);
         strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
-        Vector<String> coinNames = new Vector<String>();
-        coinNames.add("BTC");
-        coinNames.add("ETH");
-        coinNames.add("USDT");
-        coinNames.add("BNB");
-        coinNames.add("USDC");
-        coinNames.add("XRP");
-        coinNames.add("LUNA");
-        coinNames.add("ADA");
-        coinNames.add("SOL");
-        coinNames.add("AVAX");
+        //String[] coinNames = {"BTC", "ETH", "USDT", "BNB", "USDC", "XRP", "LUNA", "ADA", "SOL", "AVAX"};
         TableColumn coinColumn = table.getColumnModel().getColumn(1);
-        JComboBox coinComboBox = new JComboBox(coinNames);
-        coinColumn.setCellEditor(new DefaultCellEditor(coinComboBox));
-        coinComboBox.setEditable(true);
+        coinColumn.setCellEditor(new DefaultCellEditor(new JTextField()));
 
 
         JButton addRow = new JButton("Add Row");
@@ -291,8 +270,6 @@ public class MainUI extends JFrame implements ActionListener {
             if (tradeResult[3].equalsIgnoreCase("Fail")) {
                 JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the coins selected for \"" + broker.getName() + "\" are not sufficient.");
             }
-
-            DataVisualizationCreator creator = new DataVisualizationCreator();
 
             if (!chartsCreated) {
                 creator.createCharts(tradeResult);
