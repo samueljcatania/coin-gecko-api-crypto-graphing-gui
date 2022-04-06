@@ -161,11 +161,11 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     private void createTradingStrategies() {
-        tradingStrategies[0] = new TradingStrategy("Strategy-A", "ADA", "buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[1] = new TradingStrategy("Strategy-B", "ADA", "buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[2] = new TradingStrategy("Strategy-C", "ADA", "buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[3] = new TradingStrategy("Strategy-D", "ADA", "buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[4] = new TradingStrategy("Strategy-E", "ADA", "buy", 10, true, new String[]{"BTC"}, new String[]{"<="}, new int[]{50000});
+        tradingStrategies[0] = new TradingStrategy("Strategy-A", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[1] = new TradingStrategy("Strategy-B", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[2] = new TradingStrategy("Strategy-C", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[3] = new TradingStrategy("Strategy-D", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
+        tradingStrategies[4] = new TradingStrategy("Strategy-E", "ADA", "Buy", 10, true, new String[]{"BTC"}, new String[]{"<="}, new int[]{60000});
     }
 
     public void updateStats(JComponent component) {
@@ -268,7 +268,16 @@ public class MainUI extends JFrame implements ActionListener {
             String[] tradeResult = broker.getTradeStrategy().trade(broker.getName(), fetcher.getTargetCoinPrice(broker.getTradeStrategy().getCoinTarget()), broker.getCoins(), broker.getCoinPrices());
 
             if (tradeResult[3].equalsIgnoreCase("Fail")) {
-                JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the coins selected for \"" + broker.getName() + "\" are not sufficient.");
+
+                if(tradeResult[7].equalsIgnoreCase("1")){
+                    JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the trade conditions have not been met.", "Trade Condition Error", JOptionPane.ERROR_MESSAGE);
+                    tradeResult = Arrays.copyOf(tradeResult, tradeResult.length-1);
+
+                }else{
+                    JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the coins selected for \"" + broker.getName() + "\" are not sufficient.", "Coin Error", JOptionPane.ERROR_MESSAGE);
+                    tradeResult = Arrays.copyOf(tradeResult, tradeResult.length-1);
+                }
+
             }
 
             if (!chartsCreated) {

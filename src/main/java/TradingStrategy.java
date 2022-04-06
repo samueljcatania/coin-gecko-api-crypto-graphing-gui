@@ -91,11 +91,11 @@ public class TradingStrategy implements TradingStrategyInterface {
                 }
 
                 if (!evaluation) {
-                    return new String[]{brokerName, strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date)};
+                    return new String[]{brokerName, strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date), "1"};
                 }
 
             } else {
-                return new String[]{brokerName, strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date)};
+                return new String[]{brokerName, strategyName, coinTarget, "Fail", "Null", "Null", dateFormat.format(date), "0"};
             }
 
         }
