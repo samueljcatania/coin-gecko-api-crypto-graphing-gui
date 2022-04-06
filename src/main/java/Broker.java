@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 /**
  * This class models a Broker object that is stored by a BrokerList object.
  * A broker object contains its name, strategy, and a list of coins of interest attached to it.
@@ -24,23 +23,6 @@ public class Broker{
         tradeStrategy = strategy;
         this.coinNames = coinNames;
     }
-//
-//    /**
-//     * Constructor for a new broker object.
-//     *
-//     * @param name broker name
-//     * @param strategy strategy associated with the broker
-//     * @param coins coins associated with the broker.
-//     */
-//    public Broker(String name, TradingStrategy strategy, String[] coins) {
-//        brokerName = name;
-//        tradeStrategy = strategy;
-//        ArrayList<Coin> brokerCoinList = new ArrayList<>();
-//        // add each coin in String array to coin array in broker.
-//        for (String coin : coins) {
-//            brokerCoinList.add(new Coin(coin));
-//        }
-//    }
 
     /**
      * getName returns the name of the broker.
@@ -103,74 +85,5 @@ public class Broker{
     public void setCoinPrices(double[] coinPrices){
         this.coinPrices = coinPrices;
     }
-
-//    /**
-//     * setCoins changes the coinList attached to this broker.
-//     *
-//     * @param coins new String[] of coins to attach to this broker.
-//     */
-//    public void setCoins(String[] coins) {
-//        ArrayList<Coin> newCoinList = new ArrayList<>();
-//        for (String coin : coins) {
-//            newCoinList.add(new Coin(coin));
-//        }
-//        this.coins = newCoinList;
-//    }
-
-//    /**
-//     * finds and returns the specified coin within the coin list.
-//     *
-//     * @param coinName name of coin to find.
-//     * @return the coin object associated with the coinName. Otherwise returns null.
-//     */
-//    public Coin findCoin(String coinName){
-//        for (int i = 0; i < getCoins().size(); i++) {
-//            // if coin is found, then return the coin.
-//            if (getCoins().get(i).getCoinName().equals(coinName)){
-//                return getCoins().get(i);
-//            }
-//        }
-//        return null; // otherwise, return null.
-//    }
-//
-//    /**
-//     * Updates coin prices associated with this broker.
-//     *
-//     */
-//    public void updateCoinPrices(){
-//        for (Coin coin : coins) {
-//            try {
-//                coin.updateCoinPrice();
-//            } catch (BrokerException e) {
-//                System.out.println("Could not update coin price");
-//            }
-//        }
-//    }
-
-//    /**
-//     * returns a String[] of the coin list's names.
-//     *
-//     */
-//    public String[] coinNameList(){
-//        String[] names = new String[coins.size()];
-//
-//        for (int i = 0; i < coins.size(); i++) {
-//            names[i] = coins.get(i).getCoinName();
-//        }
-//        return names;
-//    }
-//
-//    /**
-//     * returns a double[] of the coin list's names.
-//     *
-//     */
-//    public double[] coinPriceList(){
-//        double[] prices = new double[coins.size()];
-//
-//        for (int i = 0; i < coins.size(); i++) {
-//            prices[i] = coins.get(i).getCoinPrice();
-//        }
-//        return prices;
-//    }
 
 }

@@ -16,6 +16,12 @@ import java.util.Set;
  */
 public class DataFetcher {
 
+    /**
+     * private helper method getDataForCrypto creates a JsonArray using CoinGecko API data,
+     * which contains data which is then parsed by getPricesForCoins and getTargetCoinPrice.
+     *
+     * @return JsonArray containing information about all coins on CoinGecko.
+     */
     private JsonArray getDataForCrypto() {
 
         try {
@@ -39,6 +45,12 @@ public class DataFetcher {
         return null;
     }
 
+    /**
+     * getPricesForCoins fetches the current price for all coins on CoinGecko.
+     *
+     * @param allCoins a set of all the coins that the brokers are interested in.
+     * @return a double[] containing the prices of all coins that brokers are interested in.
+     */
     public double[] getPricesForCoins(Set<String> allCoins) {
 
         JsonArray jsonArray = getDataForCrypto();
@@ -60,6 +72,12 @@ public class DataFetcher {
         return allPrices;
     }
 
+    /**
+     * getTargetCoinPrice fetches the current price of the targetCoin (the coin to be traded)
+     *
+     * @param targetCoin the name of the coin to be traded.
+     * @return the price of targetCoin.
+     */
     public double getTargetCoinPrice(String targetCoin) {
 
         JsonArray jsonArray = getDataForCrypto();

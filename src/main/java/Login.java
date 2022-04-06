@@ -10,6 +10,10 @@ public class Login {
     private final JTextField passwordField;
     private final JFrame loginFrame;
 
+    /**
+     * Constructor for Login, which takes and checks user credentials.
+     *
+     */
     public Login() {
         loginFrame = new JFrame("Login");
         loginFrame.setSize(350, 125);
@@ -46,6 +50,10 @@ public class Login {
         loginFrame.setVisible(true);
     }
 
+    /**
+     * Helper method to Login constructor to check validity of user password.
+     *
+     */
     private void checkPassword() {
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -90,6 +98,12 @@ public class Login {
         }
     }
 
+    /**
+     * Main is the entrypoint to the LemonMist cryptotrading program. It first asks for credentials,
+     * and if they are valid, then it launches MainUI.
+     *
+     * @param args command line arguments (none needed to launch the program normally.)
+     */
     public static void main(String[] args) {
         new Login();
     }
