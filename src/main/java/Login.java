@@ -9,8 +9,6 @@ public class Login {
     private JTextField usernameField, passwordField;
     private JFrame loginFrame;
 
-    //TODO terminate application if wrong username/password
-
     public Login() {
         loginFrame = new JFrame("Login");
         loginFrame.setSize(350, 125);
@@ -86,8 +84,8 @@ public class Login {
             mainUIFrame.setVisible(true);
 
         } else {
-            passwordField.setText("");
-            JOptionPane.showMessageDialog(loginFrame, "Invalid Password");
+            JOptionPane.showMessageDialog(loginFrame, "Invalid Username or Password. The application will now terminate.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
     }
 }
