@@ -4,6 +4,13 @@ import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Login class shows a UI that takes user input for their username and password. If credentials are valid, then
+ * MainUI is launched. Otherwise, the program exits.
+ *
+ * @author Samuel Catania
+ */
+
 public class Login {
 
     private final JTextField usernameField;
@@ -13,7 +20,6 @@ public class Login {
     /**
      * Constructor for Login, which takes and checks user credentials.
      *
-     * @author Samuel Catania
      */
     public Login() {
         loginFrame = new JFrame("Login");
