@@ -72,6 +72,7 @@ public class DataVisualizationCreator {
 		// create table by attaching tableModel to the table.
 		// the table that is output on the MainUI.
 		JTable table = new JTable(tableModel);
+		table.setEnabled(false); // make table uneditable
 
 		// the code below was provided by the cs2212 sample GUI code.
         JScrollPane scrollPane = new JScrollPane(table);
