@@ -6,8 +6,9 @@ import java.io.IOException;
 
 public class Login {
 
-    private JTextField usernameField, passwordField;
-    private JFrame loginFrame;
+    private final JTextField usernameField;
+    private final JTextField passwordField;
+    private final JFrame loginFrame;
 
     public Login() {
         loginFrame = new JFrame("Login");
