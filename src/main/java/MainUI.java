@@ -226,8 +226,9 @@ public class MainUI extends JFrame implements ActionListener {
                 }
 
 //                // check if the trader name already exists. If it does, do not add a new broker.
-                    if (isDuplicate(traderObject.toString())){
-                        JOptionPane.showMessageDialog(this, "Broker name on line " + (count + 1) + " is a duplicate.");
+                int checkDuplicate = isDuplicate(traderObject.toString());
+                    if (checkDuplicate != 0){
+                        JOptionPane.showMessageDialog(this, "Broker name on line " + (checkDuplicate) + " is a duplicate.");
                         return;
                     }
 
@@ -289,19 +290,19 @@ public class MainUI extends JFrame implements ActionListener {
      * isDuplicate returns true if the brokerName is already the name of an existing broker.
      *
      * @param brokerName the name to check
-     * @return true if it is a duplicate, false otherwise.
+     * @return the row number that is a duplicate if it is a duplicate, null otherwise.
      */
-    private boolean isDuplicate(String brokerName){
+    private int isDuplicate(String brokerName){
         int count = 0; // it is a duplicate if count counts 2 on the dtm.
         for (int i = 0; i < dtm.getRowCount(); i++) {
             if (dtm.getValueAt(i, 0).toString().equals(brokerName)){
                 count++;
             }
             if (count == 2){
-                return true;
+                return i+1;
             }
         }
-        return false;
+        return 0;
     }
 
     /**
