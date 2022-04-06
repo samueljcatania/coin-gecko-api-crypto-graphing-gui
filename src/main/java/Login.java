@@ -89,4 +89,8 @@ public class Login {
             System.exit(0);
         }
     }
+
+    public static void main(String[] args) {
+        new Login();
+    }
 }

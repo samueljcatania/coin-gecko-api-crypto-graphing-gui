@@ -218,7 +218,7 @@ public class MainUI extends JFrame implements ActionListener {
 
                 System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
             }
-            stats.removeAll();
+            //stats.removeAll();
 
             updateAndTrade(brokerArrayList, allCoins);
 
