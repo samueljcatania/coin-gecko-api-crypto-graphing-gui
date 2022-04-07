@@ -92,31 +92,31 @@ public class TradingStrategy implements TradingStrategyInterface {
 
                     case "<":
 
-                        if (!(prices[i] < coinPriceList[index])) {
+                        if (!(coinPriceList[index] < prices[i])) {
                             evaluation = false;
                         }
                         break;
 
                     case ">":
-                        if (!(prices[i] > coinPriceList[index])) {
+                        if (!(coinPriceList[index] > prices[i])) {
                             evaluation = false;
                         }
                         break;
 
                     case "=":
-                        if (!(prices[i] == coinPriceList[index])) {
+                        if (!(coinPriceList[index] == prices[i])) {
                             evaluation = false;
                         }
                         break;
 
                     case ">=":
-                        if (!(prices[i] >= coinPriceList[index])) {
+                        if (!(coinPriceList[index] >= prices[i])) {
                             evaluation = false;
                         }
                         break;
 
                     case "<=":
-                        if (!(prices[i] <= coinPriceList[index])) {
+                        if (!(coinPriceList[index] <= prices[i])) {
                             evaluation = false;
                         }
                         break;
