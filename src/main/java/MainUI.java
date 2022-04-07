@@ -133,7 +133,7 @@ public class MainUI extends JFrame implements ActionListener {
         comboBox.setEditable(false);
         strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
-        //String[] coinNames = {"BTC", "ETH", "USDT", "BNB", "USDC", "XRP", "LUNA", "ADA", "SOL", "AVAX"};
+
         TableColumn coinColumn = table.getColumnModel().getColumn(1);
         coinColumn.setCellEditor(new DefaultCellEditor(new JTextField()));
 
@@ -177,16 +177,28 @@ public class MainUI extends JFrame implements ActionListener {
 //		getContentPane().add(west, BorderLayout.WEST);
     }
 
+    //String[] coinNames = {"BTC", "ETH", "USDT", "BNB", "USDC", "XRP", "LUNA", "ADA", "SOL", "AVAX"};
+
     /**
      * createTradingStrategies initializes all the trading strategies available in LemonMist.
      *
      */
     private void createTradingStrategies() {
+
+        //If the price of BTC is less or equal $50,000 and the price of ADA more than $2 then buy 10 ADA coins
         tradingStrategies[0] = new TradingStrategy("Strategy-A", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[1] = new TradingStrategy("Strategy-B", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[2] = new TradingStrategy("Strategy-C", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[3] = new TradingStrategy("Strategy-D", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
-        tradingStrategies[4] = new TradingStrategy("Strategy-E", "ADA", "Buy", 10, true, new String[]{"BTC"}, new String[]{"<="}, new int[]{60000});
+
+        //If ETH drops below $4000 in price, buy $10,000 worth of ETH
+        tradingStrategies[1] = new TradingStrategy("Strategy-B", "ETH", "Buy", 10000, false, new String[]{"ETH"}, new String[]{"<"}, new int[]{4000});
+
+        //If XRP is less than or equal to $1, SOL is greater than or equal to $200, and BNB is greater than $510, sell 1 BTC
+        tradingStrategies[2] = new TradingStrategy("Strategy-C", "BTC", "Sell", 1, true, new String[]{"XRP", "SOL", "BNB"}, new String[]{"<=", ">=", ">"}, new int[]{1, 200, 510});
+
+        //If SOL is less than or equal to $130 and LINK is less than or equal to $20, then buy $500 worth of ALGO
+        tradingStrategies[3] = new TradingStrategy("Strategy-D", "ALGO", "Buy", 500, false, new String[]{"SOL", "LINK"}, new String[]{"<=", "<="}, new int[]{130, 20});
+
+        //If DOGE is greater than $0 and XRP is greater than $1, then sell 5 ETH
+        tradingStrategies[4] = new TradingStrategy("Strategy-E", "ETH", "Sell", 5, true, new String[]{"DOGE", "XRP"}, new String[]{">", ">"}, new int[]{0, 1});
     }
 
     /**
@@ -266,14 +278,6 @@ public class MainUI extends JFrame implements ActionListener {
 
 
             //creator.createCharts();
-
-            // !! test trades below
-//            creator.createCharts(new String[]{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-//            creator.addToTradeLog(new String[]{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-//            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-//            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-//            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-B", "ETH", "Buy", "500", "150.3", "13-January-2022"});
-//            creator.addToTradeLog(new String[]{"Trader-2", "Strategy-C", "ETH", "Buy", "500", "150.3", "13-January-2022"});
 
 
             //Add a new table row
