@@ -131,7 +131,7 @@ public class MainUI extends JFrame implements ActionListener {
         tradingStrategies[0] = new TradingStrategy("Strategy-A", "ADA", "Buy", 10, true, new String[]{"BTC", "ADA"}, new String[]{"<=", ">"}, new int[]{50000, 2});
 
         //If ETH drops below $4000 in price, buy $10,000 worth of ETH
-        tradingStrategies[1] = new TradingStrategy("Strategy-B", "ETH", "Buy", 10000, false, new String[]{"ETH"}, new String[]{"<"}, new int[]{4000});
+        tradingStrategies[1] = new TradingStrategy("Strategy-B", "ETH", "Buy", 10000, false, new String[]{"ETH"}, new String[]{"<"}, new int[]{3800});
 
         //If XRP is less than or equal to $1, SOL is greater than or equal to $200, and BNB is greater than $510, sell 1 BTC
         tradingStrategies[2] = new TradingStrategy("Strategy-C", "BTC", "Sell", 1, true, new String[]{"XRP", "SOL", "BNB"}, new String[]{"<=", ">=", ">"}, new int[]{1, 200, 510});

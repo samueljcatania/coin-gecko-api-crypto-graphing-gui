@@ -127,7 +127,7 @@ public class DataVisualizationCreator {
 		CategoryAxis domainAxis = new CategoryAxis("Strategy");
 		plot.setDomainAxis(domainAxis);
 		LogAxis rangeAxis = new LogAxis("Actions(Buys or Sells)");
-		rangeAxis.setRange(new Range(0.1, 20.0)); // set lower to 0.1 so that 1 trade shows up. Lower was originally 1.0 in the provided code.
+		rangeAxis.setRange(new Range(0.1, 30.0)); // set lower to 0.1 so that 1 trade shows up. Lower was originally 1.0 in the provided code.
 		plot.setRangeAxis(rangeAxis);
 		// the code above was provided by the cs2212 sample GUI code, with slight modifications.
 
@@ -139,6 +139,8 @@ public class DataVisualizationCreator {
 		chartPanel.setPreferredSize(new Dimension(600, 300));
 		chartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		chartPanel.setBackground(Color.white);
+		chartPanel.setDomainZoomable(false);
+		chartPanel.setRangeZoomable(false);
 		MainUI.getInstance().updateStats(chartPanel);
 		// the code above was provided by the cs2212 sample GUI code.
 	}
