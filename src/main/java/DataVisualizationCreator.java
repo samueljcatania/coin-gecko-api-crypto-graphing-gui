@@ -25,7 +25,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class DataVisualizationCreator {
 	// dataset: number of times trade was executed, row- broker name, col- trade strategy. Data for bar graph.
-	private DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	private final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	// table columns: "Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date". Data for table.
 	private DefaultTableModel tableModel = new DefaultTableModel();
 

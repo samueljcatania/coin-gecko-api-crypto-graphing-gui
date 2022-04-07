@@ -26,7 +26,9 @@ public class MainUI extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     private static MainUI instance;
-    private JPanel stats, chartPanel, tablePanel;
+    private final JPanel stats;
+    private JPanel chartPanel;
+    private JPanel tablePanel;
 
     // Should be a reference to a separate object in actual implementation
     private List<String> selectedList;
@@ -36,16 +38,16 @@ public class MainUI extends JFrame implements ActionListener {
     private JTextArea tickerText;
     private JTextArea BrokerText;
     private JComboBox<String> strategyList;
-    private Map<String, List<String>> brokersTickers = new HashMap<>();
-    private Map<String, String> brokersStrategies = new HashMap<>();
-    private List<String> selectedTickers = new ArrayList<>();
-    private String selectedStrategy = "";
-    private DefaultTableModel dtm;
-    private JTable table;
+    private final Map<String, List<String>> brokersTickers = new HashMap<>();
+    private final Map<String, String> brokersStrategies = new HashMap<>();
+    private final List<String> selectedTickers = new ArrayList<>();
+    private final String selectedStrategy = "";
+    private final DefaultTableModel dtm;
+    private final JTable table;
 
-    private TradingStrategy[] tradingStrategies = new TradingStrategy[5];
+    private final TradingStrategy[] tradingStrategies = new TradingStrategy[5];
     private boolean chartsCreated = false;
-    private DataVisualizationCreator creator = new DataVisualizationCreator();
+    private final DataVisualizationCreator creator = new DataVisualizationCreator();
 
     /**
      * getInstance returns this instance of MainUI.
@@ -119,7 +121,7 @@ public class MainUI extends JFrame implements ActionListener {
         // table.setPreferredSize(new Dimension(600, 300));
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions", TitledBorder.CENTER, TitledBorder.TOP));
-        Vector<String> strategyNames = new Vector<String>();
+        Vector<String> strategyNames = new Vector<>();
         strategyNames.add("None");
 
         for (TradingStrategy strategy : tradingStrategies) {
@@ -205,10 +207,10 @@ public class MainUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        ArrayList<Broker> brokerArrayList = new ArrayList<Broker>();
+        ArrayList<Broker> brokerArrayList = new ArrayList<>();
 
         //Store all coins to use to fetch prices
-        Set<String> allCoins = new HashSet<String>();
+        Set<String> allCoins = new HashSet<>();
 
         String command = e.getActionCommand();
 
