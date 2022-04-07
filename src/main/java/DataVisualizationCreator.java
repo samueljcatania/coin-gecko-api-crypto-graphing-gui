@@ -129,9 +129,7 @@ public class DataVisualizationCreator {
 		LogAxis rangeAxis = new LogAxis("Actions(Buys or Sells)");
 		rangeAxis.setRange(new Range(0.1, 30.0)); // set lower to 0.1 so that 1 trade shows up. Lower was originally 1.0 in the provided code.
 		plot.setRangeAxis(rangeAxis);
-		// the code above was provided by the cs2212 sample GUI code, with slight modifications.
 
-		// the code below was provided by the cs2212 sample GUI code.
 		JFreeChart barChart = new JFreeChart("Actions Performed By Traders So Far", new Font("Serif", java.awt.Font.BOLD, 18), plot,
 				true);
 
@@ -142,7 +140,7 @@ public class DataVisualizationCreator {
 		chartPanel.setDomainZoomable(false);
 		chartPanel.setRangeZoomable(false);
 		MainUI.getInstance().updateStats(chartPanel);
-		// the code above was provided by the cs2212 sample GUI code.
+		// the code above was provided by the cs2212 sample GUI code, with slight modifications.
 	}
 
 }
