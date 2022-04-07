@@ -4,9 +4,8 @@
  *
  * @author Meg Zhang
  * @author Samuel Catania
- *
  */
-public class Broker{
+public class Broker {
     private String brokerName;
     private TradingStrategy tradeStrategy;
     private String[] coinNames;
@@ -15,8 +14,8 @@ public class Broker{
     /**
      * Constructor for a new broker object.
      *
-     * @param name broker name
-     * @param strategy strategy associated with the broker
+     * @param name      broker name
+     * @param strategy  strategy associated with the broker
      * @param coinNames coins associated with the broker.
      */
     public Broker(String name, TradingStrategy strategy, String[] coinNames) {
@@ -30,14 +29,14 @@ public class Broker{
      *
      * @return the name of the broker
      */
-    public String getName(){
+    public String getName() {
         return brokerName;
     }
 
     /**
      * getTradeStrategy returns the strategy attached to this broker
      *
-     * @return the trade strategy associated with the broker
+     * @return The trade strategy associated with the broker
      */
     public TradingStrategy getTradeStrategy() {
         return tradeStrategy;
@@ -56,39 +55,13 @@ public class Broker{
         return coinNames;
     }
 
-    /**
-     * setName changes the name of the broker.
-     *
-     * @param newName new name of broker.
-     */
-    public void setName(String newName) {
-        brokerName = newName;
-    }
-
-    /**
-     * setStrategy changes the strategy attached to this broker
-     *
-     * @param strategy the new strategy
-     */
-    public void setStrategy(TradingStrategy strategy) {
-        tradeStrategy = strategy;
-    }
-
-    /**
-     * setCoinNames sets a new array of coin names.
-     *
-     * @param coins String[] containing new coin names.
-     */
-    public void setCoinNames(String[] coins) {
-        this.coinNames = coinNames;
-    }
 
     /**
      * setCoinPrices sets a new array of coin prices.
      *
      * @param coinPrices double[] containing new coin prices.
      */
-    public void setCoinPrices(double[] coinPrices){
+    public void setCoinPrices(double[] coinPrices) {
         this.coinPrices = coinPrices;
     }
 

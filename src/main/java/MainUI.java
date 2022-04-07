@@ -19,7 +19,6 @@ import javax.swing.table.TableColumn;
  * @author Samuel Catania
  * @author Meg Zhang
  */
-
 public class MainUI extends JFrame implements ActionListener {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -83,10 +82,8 @@ public class MainUI extends JFrame implements ActionListener {
         comboBox.setEditable(false);
         strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
-
         TableColumn coinColumn = table.getColumnModel().getColumn(1);
         coinColumn.setCellEditor(new DefaultCellEditor(new JTextField()));
-
 
         JButton addRow = new JButton("Add Row");
         JButton remRow = new JButton("Remove Row");
@@ -97,7 +94,6 @@ public class MainUI extends JFrame implements ActionListener {
 
         scrollPane.setPreferredSize(new Dimension(800, 300));
         table.setFillsViewportHeight(true);
-
 
         JPanel east = new JPanel();
         east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
@@ -206,6 +202,7 @@ public class MainUI extends JFrame implements ActionListener {
                 }
                 String strategyName = strategyObject.toString();
 
+                //Create brokers
                 for (TradingStrategy strategy : tradingStrategies) {
                     if (strategy.getStrategyName().equals(strategyName)) {
                         brokerArrayList.add(new Broker(traderName, strategy, coinNames));

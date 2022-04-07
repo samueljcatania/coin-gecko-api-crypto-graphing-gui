@@ -17,7 +17,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 
 /**
- * This class handles the output of the histogram and the table.
+ * This class handles the creation and general formatting output of the histogram and the table.
  *
  * @author Delaney Hishon
  * @author Meg Zhang
