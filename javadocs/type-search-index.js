@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"Broker"},{"p":"<Unnamed>","l":"DataFetcher"},{"p":"<Unnamed>","l":"DataVisualizationCreator"},{"p":"<Unnamed>","l":"Login"},{"p":"<Unnamed>","l":"MainUI"},{"p":"<Unnamed>","l":"TradingStrategy"},{"p":"<Unnamed>","l":"TradingStrategyInterface"}];updateSearchResults();
