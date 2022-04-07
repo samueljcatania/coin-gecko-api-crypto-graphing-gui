@@ -9,4 +9,5 @@
     password: admin
    
 Other credentials that are valid are stored within credentials.json.
-The Main UI will appear if any correct combination of credentials is entered. 
+The Main UI will appear if any correct combination of credentials is entered. If any incorrect credentials are 
+entered, the program will terminate.

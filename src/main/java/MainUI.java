@@ -4,8 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.Serial;
 import java.util.*;
 
 import javax.swing.*;
@@ -19,29 +18,15 @@ import javax.swing.table.TableColumn;
  * @author Delaney Hishon
  * @author Samuel Catania
  * @author Meg Zhang
- *
  */
 
 public class MainUI extends JFrame implements ActionListener {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static MainUI instance;
     private final JPanel stats;
-    private JPanel chartPanel;
-    private JPanel tablePanel;
 
-    // Should be a reference to a separate object in actual implementation
-    private List<String> selectedList;
-
-    private JTextArea selectedTickerList;
-    //	private JTextArea tickerList;
-    private JTextArea tickerText;
-    private JTextArea BrokerText;
-    private JComboBox<String> strategyList;
-    private final Map<String, List<String>> brokersTickers = new HashMap<>();
-    private final Map<String, String> brokersStrategies = new HashMap<>();
-    private final List<String> selectedTickers = new ArrayList<>();
-    private final String selectedStrategy = "";
     private final DefaultTableModel dtm;
     private final JTable table;
 
@@ -63,7 +48,6 @@ public class MainUI extends JFrame implements ActionListener {
 
     /**
      * MainUI() instantiates and creates the window, interface, and buttons of the main UI.
-     *
      */
     private MainUI() {
 
@@ -75,42 +59,9 @@ public class MainUI extends JFrame implements ActionListener {
         // Set top bar
         JPanel north = new JPanel();
 
-//		north.add(strategyList);
-
-        // Set bottom bar
-//		JLabel from = new JLabel("From");
-//		UtilDateModel dateModel = new UtilDateModel();
-//		Properties p = new Properties();
-//		p.put("text.today", "Today");
-//		p.put("text.month", "Month");
-//		p.put("text.year", "Year");
-//		JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
-//		@SuppressWarnings("serial")
-//		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new AbstractFormatter() {
-//			private String datePatern = "dd/MM/yyyy";
-//
-//			private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePatern);
-//
-//			@Override
-//			public Object stringToValue(String text) throws ParseException {
-//				return dateFormatter.parseObject(text);
-//			}
-//
-//			@Override
-//			public String valueToString(Object value) throws ParseException {
-//				if (value != null) {
-//					Calendar cal = (Calendar) value;
-//					return dateFormatter.format(cal.getTime());
-//				}
-//
-//				return "";
-//			}
-//		});
-
         JButton trade = new JButton("Perform Trade");
         trade.setActionCommand("refresh");
         trade.addActionListener(this);
-
 
         JPanel south = new JPanel();
 
@@ -118,7 +69,6 @@ public class MainUI extends JFrame implements ActionListener {
 
         dtm = new DefaultTableModel(new Object[]{"Trading Client", "Coin List", "Strategy Name"}, 1);
         table = new JTable(dtm);
-        // table.setPreferredSize(new Dimension(600, 300));
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions", TitledBorder.CENTER, TitledBorder.TOP));
         Vector<String> strategyNames = new Vector<>();
@@ -150,17 +100,13 @@ public class MainUI extends JFrame implements ActionListener {
 
 
         JPanel east = new JPanel();
-//		east.setLayout();
         east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
-//		east.add(table);
         east.add(scrollPane);
         JPanel buttons = new JPanel();
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
         buttons.add(addRow);
         buttons.add(remRow);
         east.add(buttons);
-//		east.add(selectedTickerListLabel);
-//		east.add(selectedTickersScrollPane);
 
         // Set charts region
         JPanel west = new JPanel();
@@ -174,14 +120,10 @@ public class MainUI extends JFrame implements ActionListener {
         getContentPane().add(east, BorderLayout.EAST);
         getContentPane().add(west, BorderLayout.CENTER);
         getContentPane().add(south, BorderLayout.SOUTH);
-//		getContentPane().add(west, BorderLayout.WEST);
     }
-
-    //String[] coinNames = {"BTC", "ETH", "USDT", "BNB", "USDC", "XRP", "LUNA", "ADA", "SOL", "AVAX"};
 
     /**
      * createTradingStrategies initializes all the trading strategies available in LemonMist.
-     *
      */
     private void createTradingStrategies() {
 
@@ -241,10 +183,10 @@ public class MainUI extends JFrame implements ActionListener {
 
 //                // check if the trader name already exists. If it does, do not add a new broker.
                 int checkDuplicate = isDuplicate(traderObject.toString());
-                    if (checkDuplicate != 0){
-                        JOptionPane.showMessageDialog(this, "Broker name on line " + (checkDuplicate) + " is a duplicate.");
-                        return;
-                    }
+                if (checkDuplicate != 0) {
+                    JOptionPane.showMessageDialog(this, "Broker name on line " + (checkDuplicate) + " is a duplicate.");
+                    return;
+                }
 
                 String traderName = traderObject.toString(); // otherwise, set traderName.
 
@@ -272,12 +214,8 @@ public class MainUI extends JFrame implements ActionListener {
 
                 System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
             }
-            //stats.removeAll();
 
             updateAndTrade(brokerArrayList, allCoins);
-
-
-            //creator.createCharts();
 
 
             //Add a new table row
@@ -298,14 +236,14 @@ public class MainUI extends JFrame implements ActionListener {
      * @param brokerName the name to check
      * @return the row number that is a duplicate if it is a duplicate, null otherwise.
      */
-    private int isDuplicate(String brokerName){
+    private int isDuplicate(String brokerName) {
         int count = 0; // it is a duplicate if count counts 2 on the dtm.
         for (int i = 0; i < dtm.getRowCount(); i++) {
-            if (dtm.getValueAt(i, 0).toString().equals(brokerName)){
+            if (dtm.getValueAt(i, 0).toString().equals(brokerName)) {
                 count++;
             }
-            if (count == 2){
-                return i+1;
+            if (count == 2) {
+                return i + 1;
             }
         }
         return 0;
@@ -315,7 +253,7 @@ public class MainUI extends JFrame implements ActionListener {
      * This method creates a new trade, and updates the table and histogram.
      *
      * @param brokerArrayList the broker list
-     * @param allCoins a set containing data about all cryptocoins.
+     * @param allCoins        a set containing data about all cryptocoins.
      */
     private void updateAndTrade(ArrayList<Broker> brokerArrayList, Set<String> allCoins) {
 
@@ -340,14 +278,13 @@ public class MainUI extends JFrame implements ActionListener {
 
             if (tradeResult[3].equalsIgnoreCase("Fail")) {
 
-                if(tradeResult[7].equalsIgnoreCase("1")){
+                if (tradeResult[7].equalsIgnoreCase("1")) {
                     JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the trade conditions have not been met.", "Trade Condition Error", JOptionPane.ERROR_MESSAGE);
-                    tradeResult = Arrays.copyOf(tradeResult, tradeResult.length-1);
 
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "\"" + broker.getTradeStrategy().getStrategyName() + "\" can not be applied as the coins selected for \"" + broker.getName() + "\" are not sufficient.", "Coin Error", JOptionPane.ERROR_MESSAGE);
-                    tradeResult = Arrays.copyOf(tradeResult, tradeResult.length-1);
                 }
+                tradeResult = Arrays.copyOf(tradeResult, tradeResult.length - 1);
 
             }
 
